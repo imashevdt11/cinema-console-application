@@ -1,11 +1,12 @@
-package Interfaces;
+package interfaces;
 
-import Other.MyConnection;
-import Accounts.*;
+import configurations.MyConnection;
+import accounts.*;
 
 import java.io.IOException;
 import java.util.Scanner;
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public interface Ticket {
     static void getIncomeStatement() throws ClassNotFoundException, SQLException, IOException {

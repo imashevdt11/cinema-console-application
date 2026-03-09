@@ -1,7 +1,7 @@
-package Interfaces;
+package interfaces;
 
-import Other.MyConnection;
-import Accounts.Admin;
+import configurations.MyConnection;
+import accounts.Admin;
 
 import java.io.IOException;
 import java.util.*;

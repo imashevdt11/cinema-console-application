@@ -1,14 +1,10 @@
-package Other;
-
-import Accounts.User;
+import accounts.User;
 
 import java.sql.SQLException;
 import java.io.IOException;
 
-public class Main {
+public class CinemaConsoleApplication {
     public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException {
-
-        System.out.println("\nHELLO!");
         User.typeChoosing();
     }
 }

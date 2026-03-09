@@ -1,11 +1,14 @@
-package Accounts;
+package accounts;
 
-import Interfaces.*;
-import Other.MyConnection;
+import interfaces.*;
+import configurations.MyConnection;
 
-import java.util.*;
-import java.sql.*;
-import java.io.*;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.io.IOException;
 
 public class Visitor extends User {
     static void replenishTheBalance() throws ClassNotFoundException, SQLException, IOException {

@@ -1,7 +1,7 @@
-package Accounts;
+package accounts;
 
-import Other.MyConnection;
-import Interfaces.*;
+import configurations.MyConnection;
+import interfaces.*;
 
 import java.util.Scanner;
 import java.sql.*;

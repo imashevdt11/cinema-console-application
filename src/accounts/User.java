@@ -1,6 +1,7 @@
-package Accounts;
+package accounts;
 
-import Interfaces.*;
+import interfaces.*;
+
 import java.sql.SQLException;
 import java.io.IOException;
 import java.util.Scanner;
