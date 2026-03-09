@@ -1,7 +1,8 @@
 package interfaces;
 
 import configurations.MyConnection;
-import accounts.*;
+import models.Manager;
+import models.Visitor;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -9,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public interface Ticket {
-    static void getIncomeStatement() throws ClassNotFoundException, SQLException, IOException {
+    static void getIncomeStatement() throws ClassNotFoundException, SQLException {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
         Scanner scanner = new Scanner(System.in);

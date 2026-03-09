@@ -1,7 +1,7 @@
 package interfaces;
 
 import configurations.MyConnection;
-import accounts.Admin;
+import models.Admin;
 
 import java.io.IOException;
 import java.util.*;
@@ -22,7 +22,7 @@ public interface Session {
         String endTime;
         System.out.println("""
                 Before you start entering data, I would like to remind you of the following points:
-                                
+                
                 - there are only 24 hours in a day
                 - there are only 12 months in a year
                 - there are only 60 minutes in an hour

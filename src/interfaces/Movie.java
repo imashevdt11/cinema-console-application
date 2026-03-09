@@ -1,11 +1,13 @@
 package interfaces;
 
 import configurations.MyConnection;
-import accounts.Admin;
+import models.Admin;
 
 import java.io.IOException;
 import java.util.Scanner;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public interface Movie {
     static void addMovie() throws ClassNotFoundException, NumberFormatException, SQLException, IOException {
@@ -37,7 +39,7 @@ public interface Movie {
                 if (Integer.parseInt(productionYear) > 2022 || Integer.parseInt(productionYear) < 1900) {
                     System.out.print("""
                             \nYOU ENTERED PRODUCTION YEAR INCORRECTLY
-                                                        
+                            
                             DO YOU WANT TO TRY AGAIN? (1 - YES / 0 - NO):\040""");
                     String choice = scanner.nextLine();
                     if (choice.equals("1")) addMovie();
@@ -45,7 +47,7 @@ public interface Movie {
                 } else if (country.length() > 20 || genre.length() > 20 || producer.length() > 20) {
                     System.out.print("""
                             \nYOU HAVE ENTERED THE NUMBER OF CHARACTERS EXCEEDING THE SPECIFIED LIMIT
-                                                        
+                            
                             DO YOU WANT TO TRY AGAIN? (1 - YES / 0 - NO):\040""");
                     String choice = scanner.nextLine();
                     if (choice.equals("1")) addMovie();
@@ -53,7 +55,7 @@ public interface Movie {
                 } else if (Integer.parseInt(duration) > 240 || Integer.parseInt(duration) < 60) {
                     System.out.print(""" 
                             \nYOU HAVE ENTERED AN INVALID NUMBER OF MINUTES
-                                                        
+                            
                             DO YOU WANT TO TRY AGAIN? (1 - YES / 0 - NO):\040""");
                     String choice = scanner.nextLine();
                     if (choice.equals("1")) addMovie();

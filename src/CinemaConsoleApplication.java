@@ -1,10 +1,8 @@
-import accounts.User;
-
-import java.sql.SQLException;
-import java.io.IOException;
+import views.MenuView;
 
 public class CinemaConsoleApplication {
-    public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException {
-        User.typeChoosing();
+
+    public static void main(String[] args) {
+        MenuView.openMainMenu();
     }
 }

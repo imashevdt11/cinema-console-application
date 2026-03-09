@@ -1,11 +1,14 @@
-package accounts;
+package models;
 
 import configurations.MyConnection;
 import interfaces.*;
+import views.MenuView;
 
 import java.io.IOException;
 import java.util.Scanner;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class  Admin extends User {
     public static void aMenu() throws ClassNotFoundException, SQLException, IOException {
@@ -59,7 +62,7 @@ public class  Admin extends User {
             case "8" -> Session.addSession();
             case "9" -> Movie.addMovie();
 
-            case "10" -> typeChoosing();
+            case "10" -> MenuView.openMainMenu();
             case "0" -> System.out.print("\nGOODBYE! HAVE A NICE DAY!\n");
             default -> {
                 System.out.println("\nTHE ENTERED MENU NUMBER IS INVALID");
@@ -67,7 +70,7 @@ public class  Admin extends User {
             }
         }
     }
-    static void removeAdmin() throws IOException, ClassNotFoundException, SQLException {
+    static void removeAdmin() throws ClassNotFoundException, SQLException {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
         Scanner scanner = new Scanner(System.in);
@@ -87,7 +90,7 @@ public class  Admin extends User {
         System.out.println("\n" + firstName + " " + lastName + "'s DATA CHANGED");
         Manager.mMenu();
     }
-    static void findAdmin() throws ClassNotFoundException, SQLException, IOException {
+    static void findAdmin() throws ClassNotFoundException, SQLException {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
         Scanner scanner = new Scanner(System.in);
@@ -112,7 +115,8 @@ public class  Admin extends User {
         }
         Manager.mMenu();
     }
-    static void addAdmin() throws ClassNotFoundException, SQLException, IOException {
+
+    static void addAdmin() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Scanner scanner = new Scanner(System.in);
         System.out.print("\nFIRST NAME (MUST CONTAIN LESS THAN 20 CHARACTERS): ");
@@ -131,8 +135,7 @@ public class  Admin extends User {
             String choice = scanner.nextLine();
             if (choice.equals("1")) addAdmin();
             else Manager.mMenu();
-        }
-        else {
+        } else {
             Admin.setFirstName(firstName);
             Admin.setLastName(lastName);
             Admin.setPassword(password);
@@ -158,7 +161,7 @@ public class  Admin extends User {
             }
         }
     }
-    static void aLogIn() throws ClassNotFoundException, SQLException, IOException {
+    public static void aLogIn() throws ClassNotFoundException, SQLException, IOException {
 
         Scanner scanner = new Scanner(System.in);
 
@@ -194,7 +197,7 @@ public class  Admin extends User {
             String choice = scanner.nextLine();
 
             if (choice.equals("1")) aLogIn();
-            else typeChoosing();
+            else MenuView.openMainMenu();
         }
     }
 }
