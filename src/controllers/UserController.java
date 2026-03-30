@@ -19,6 +19,7 @@ public class UserController implements TypeChoosingListener {
     }
 
     public void start() {
+        model.login(scanner);
         view.printFunctionOptionsMenu();
         model.chooseMenuOption(scanner);
     }

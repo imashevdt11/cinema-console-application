@@ -1,37 +1,19 @@
 package models.entities;
 
 import configurations.MyConnection;
-import models.interfaces.*;
-import views.UserMenuView;
 
-import java.io.IOException;
 import java.util.Scanner;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Admin extends User {
+
+    public Admin() {}
+
     public void chooseMenuOption(Scanner scanner) {
 
-        System.out.println("\n———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————");
-        System.out.print("""
-                \nENTER THE NUMBER OF MENU'S OPTION
-
-                1 - ASSIGNMENTS
-                2 - SCHEDULE
-                3 - REVIEWS
-                4 - MOVIES
-                
-                5 - COMPLETE ASSIGNMENT
-                6 - REPLY TO A REVIEW
-                7 - FIND VISITOR
-                8 - ADD SESSION
-                9 - ADD MOVIE
-
-                10 - LOG OUT OF ACCOUNT
-                0 - SHUT DOWN THE PROGRAMME:\040""");
         String choice = scanner.nextLine();
-        System.out.println("\n———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————");
 
         switch (choice) {
 
@@ -65,9 +47,56 @@ public class Admin extends User {
             case "0" -> System.out.print("\nGOODBYE! HAVE A NICE DAY!\n");
             default -> {
                 System.out.println("\nTHE ENTERED MENU NUMBER IS INVALID");
-                chooseMenuOption(scanner);
             }
         }
+    }
+
+    @Override
+    public void login(Scanner scanner) {
+
+        System.out.print("\nFIRST NAME: ");
+        String firstName = scanner.nextLine();
+
+        System.out.print("LAST NAME: ");
+        String lastName = scanner.nextLine();
+
+        System.out.print("PASSWORD: ");
+        String password = scanner.nextLine();
+
+        setFirstName(firstName);
+        setLastName(lastName);
+        setPassword(password);
+
+        boolean isUserExists = false;
+        try {
+            PreparedStatement preparedStatement = MyConnection.connection.prepareStatement("SELECT firstName, lastName, status, password " +
+                    "FROM admins WHERE firstName = ? AND lastName = ? AND status = 'current' AND password = ?");
+            {
+                preparedStatement.setString(1, firstName);
+                preparedStatement.setString(2, lastName);
+                preparedStatement.setString(3, password);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) isUserExists = true;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.printf("ERROR!!! SQL problems: {%s}", e.getMessage());
+        }
+
+        if (!isUserExists) {
+            System.out.print("""
+                    \nNO DATA FOUND
+                    
+                    DO YOU WANT TO TRY AGAIN? (1 - YES / 0 - NO):\040""");
+            String choice = scanner.nextLine();
+
+            if (choice.equals("1")) {
+                login(scanner);
+            } else {
+                System.out.println("GOODBYE! HAVE A NICE DAY!\n");
+            }
+        }
+//            else UserMenuView.openMainMenu();
     }
 
     /*
@@ -165,48 +194,6 @@ public class Admin extends User {
                 System.out.println("\n" + firstName + " " + lastName + "'s DATA IS STORED IN THE DATABASE");
                 Manager.mMenu();
             }
-        }
-    }
-     */
-
-    /*
-    public static void aLogIn() throws ClassNotFoundException, SQLException, IOException {
-
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("\nFIRST NAME: ");
-        String firstName = scanner.nextLine();
-        System.out.print("LAST NAME: ");
-        String lastName = scanner.nextLine();
-        System.out.print("PASSWORD: ");
-        String password = scanner.nextLine();
-
-        Admin.setFirstName(firstName);
-        Admin.setLastName(lastName);
-        Admin.setPassword(password);
-
-        boolean isUserExists = false;
-        PreparedStatement preparedStatement = MyConnection.connection.prepareStatement("SELECT firstName, lastName, status, password " +
-                "FROM admins WHERE firstName = ? AND lastName = ? AND status = 'current' AND password = ?");
-        {
-            preparedStatement.setString(1, firstName);
-            preparedStatement.setString(2, lastName);
-            preparedStatement.setString(3, password);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) isUserExists = true;
-            }
-        }
-
-        if (isUserExists) aMenu();
-        else {
-            System.out.print("""
-                    \nNO DATA FOUND
-
-                    DO YOU WANT TO TRY AGAIN? (1 - YES / 0 - NO):\040""");
-            String choice = scanner.nextLine();
-
-            if (choice.equals("1")) aLogIn();
-            else UserMenuView.openMainMenu();
         }
     }
      */

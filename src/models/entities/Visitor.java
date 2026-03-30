@@ -1,107 +1,19 @@
 package models.entities;
 
-import models.interfaces.*;
 import configurations.MyConnection;
-import views.UserMenuView;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.io.IOException;
 
 public class Visitor extends User {
 
-    /*
-    static void replenishTheBalance() throws ClassNotFoundException, SQLException, IOException {
-
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("\nENTER THE AMOUNT OF MONEY YOU WANT TO REPLENISH YOUR BALANCE WITH: ");
-        int amountOfMoney = scanner.nextInt();
-
-        MyConnection.statement.executeUpdate("UPDATE visitors SET balance = (balance + " + amountOfMoney + ") " +
-                "WHERE password = '" + Visitor.getPassword() + "';");
-
-        System.out.println("\nDATA SAVED");
-        Visitor.vMenu();
-    }
-     */
-
-    /*
-    static void getUsersStatistic() throws ClassNotFoundException, SQLException {
-
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("\nENTER THE TIME PERIOD FOR WHICH YOU WANT TO RECEIVE INFORMATION ABOUT REGISTERED AND UNREGISTERED USERS");
-        System.out.print("\nFROM (FOR EXAMPLE, 2022-12-07): ");
-        String start = scanner.nextLine();
-        System.out.print("TO (FOR EXAMPLE, 2022-12-21): ");
-        String end = scanner.nextLine();
-        String queryTime = "'" + start + " 00:00:00' AND '" + end + " 23:59:59'";
-
-        int registered = 0;
-        int unregistered = 0;
-        ResultSet resultSet = MyConnection.statement.executeQuery("SELECT COUNT(*) FROM visitors " +
-                "WHERE status = 'current' AND registrationDate BETWEEN " + queryTime + ";");
-        while (resultSet.next()) registered = resultSet.getInt(1);
-        ResultSet resultSet2 = MyConnection.statement.executeQuery("SELECT COUNT(*) FROM visitors " +
-                "WHERE status = 'former' AND deletionDate BETWEEN " + queryTime + ";");
-        while (resultSet2.next()) unregistered = resultSet2.getInt(1);
-
-        System.out.print("\nTHE RATION OF REGISTERED/UNREGISTERED USERS FROM " + start + " TO " + end + ": " + registered + "/" + unregistered);
-        Manager.mMenu();
-    }
-     */
-
-    /*
-    static void deleteAccount() throws ClassNotFoundException, SQLException, IOException {
-
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("\nARE YOU SURE YOU WANT TO DELETE YOUR ACCOUNT? (1 - YES / 0 - NO): ");
-        String choice = scanner.nextLine();
-
-        if (choice.equals("1")) {
-            MyConnection.statement.executeUpdate("UPDATE visitors SET status = 'former' " +
-                    "WHERE firstname = '" + Visitor.getFirstName() + "' AND lastname = '" + Visitor.getLastName() + "' AND password = '"
-                    + Visitor.getPassword() + "';");
-            MyConnection.statement.executeUpdate("UPDATE visitors SET deletionDate = now() " +
-                    "WHERE firstname = '" + Visitor.getFirstName() + "' AND lastname = '" + Visitor.getLastName() + "' AND password = '" +
-                    Visitor.getPassword() + "';");
-            System.out.println("\nYOUR ACCOUNT HAS BEEN DELETED");
-            UserMenuView.openMainMenu();
-        }
-        else vMenu();
-    }
-     */
+    public Visitor() {}
 
     public void chooseMenuOption(Scanner scanner) {
 
-        System.out.println("\n———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————");
-        System.out.print("""
-                \nENTER THE NUMBER OF MENU'S OPTION
-                
-                1 - SCHEDULE
-                2 - REVIEWS
-                3 - BALANCE
-
-                4 - BOUGHT TICKETS
-                5 - FIND TICKET
-                6 - BUY TICKET
-                
-                7 - REPLENISH THE BALANCE
-                8 - DELETE ACCOUNT
-                9 - ADD REVIEW
-
-                10 - LOG OUT OF ACCOUNT
-                0 - SHUT DOWN THE PROGRAMME:\040""");
-
         String choice = scanner.nextLine();
-        System.out.println("\n———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————");
 
         switch (choice) {
 
@@ -125,30 +37,11 @@ public class Visitor extends User {
             case "0" -> System.out.print("\nGOODBYE! HAVE A NICE DAY!\n");
             default -> {
                 System.out.println("\nTHE ENTERED MENU NUMBER IS INVALID");
-                chooseMenuOption(scanner);
             }
         }
     }
 
-    /*
-    static void getBalance() throws ClassNotFoundException, SQLException, IOException {
-
-        Class.forName("com.mysql.cj.jdbc.Driver");
-
-        ResultSet resultSet = MyConnection.statement.executeQuery("SELECT balance FROM visitors " +
-                "WHERE firstName = '" + Visitor.getFirstName() + "' AND lastName = '" + Visitor.getLastName() + "' AND password = '"  + Visitor.getPassword() + "';");
-        int balance = 0;
-        while (resultSet.next())  balance = resultSet.getInt(1);
-
-        System.out.print("\n" + Visitor.getFirstName() + " " + Visitor.getLastName() + "'s balance: " + balance);
-        Visitor.vMenu();
-    }
-     */
-
-    /*
-    public static void vLogIn() throws ClassNotFoundException, SQLException, IOException {
-
-        Scanner scanner = new Scanner(System.in);
+    public void login(Scanner scanner) {
 
         System.out.print("\nFIRST NAME: ");
         String firstName = scanner.nextLine();
@@ -157,23 +50,26 @@ public class Visitor extends User {
         System.out.print("PASSWORD: ");
         String password = scanner.nextLine();
 
-        Visitor.setFirstName(firstName);
-        Visitor.setLastName(lastName);
-        Visitor.setPassword(password);
+        setFirstName(firstName);
+        setLastName(lastName);
+        setPassword(password);
 
         boolean isUserExists = false;
-        PreparedStatement preparedStatement = MyConnection.connection.prepareStatement("SELECT firstname, lastname, status, password " +
-                "FROM visitors WHERE firstName = ? AND lastName = ? AND password = ? AND status = 'current'");
-        {
-            preparedStatement.setString(1, firstName);
-            preparedStatement.setString(2, lastName);
-            preparedStatement.setString(3, password);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) isUserExists = true;
+        try {
+            PreparedStatement preparedStatement = MyConnection.connection.prepareStatement("SELECT firstname, lastname, status, password " +
+                    "FROM visitors WHERE firstName = ? AND lastName = ? AND password = ? AND status = 'current'");
+            {
+                preparedStatement.setString(1, firstName);
+                preparedStatement.setString(2, lastName);
+                preparedStatement.setString(3, password);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) isUserExists = true;
+                }
             }
+        } catch (SQLException e) {
+            System.out.printf("ERROR!!! SQL problems: {%s}", e.getMessage());
         }
-        if (isUserExists) vMenu();
-        else {
+        if (!isUserExists) {
             System.out.print("""
                     \nNO DATA FOUND
                     
@@ -181,11 +77,14 @@ public class Visitor extends User {
 
             String choice = scanner.nextLine();
 
-            if (choice.equals("1")) vLogIn();
-            else UserMenuView.openMainMenu();
+            if (choice.equals("1")) {
+                login(scanner);
+            } else {
+                System.out.println("GOODBYE! HAVE A NICE DAY!\n");
+            }
+//            else UserMenuView.openMainMenu();
         }
     }
-     */
 
     /*
     public static void signUp() throws ClassNotFoundException, SQLException, IOException {
@@ -266,6 +165,87 @@ public class Visitor extends User {
             System.out.printf("%-30s", resultSet.getString(7));
             System.out.println();
         }
+    }
+     */
+
+     /*
+    static void replenishTheBalance() throws ClassNotFoundException, SQLException, IOException {
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("\nENTER THE AMOUNT OF MONEY YOU WANT TO REPLENISH YOUR BALANCE WITH: ");
+        int amountOfMoney = scanner.nextInt();
+
+        MyConnection.statement.executeUpdate("UPDATE visitors SET balance = (balance + " + amountOfMoney + ") " +
+                "WHERE password = '" + Visitor.getPassword() + "';");
+
+        System.out.println("\nDATA SAVED");
+        Visitor.vMenu();
+    }
+     */
+
+    /*
+    static void getUsersStatistic() throws ClassNotFoundException, SQLException {
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("\nENTER THE TIME PERIOD FOR WHICH YOU WANT TO RECEIVE INFORMATION ABOUT REGISTERED AND UNREGISTERED USERS");
+        System.out.print("\nFROM (FOR EXAMPLE, 2022-12-07): ");
+        String start = scanner.nextLine();
+        System.out.print("TO (FOR EXAMPLE, 2022-12-21): ");
+        String end = scanner.nextLine();
+        String queryTime = "'" + start + " 00:00:00' AND '" + end + " 23:59:59'";
+
+        int registered = 0;
+        int unregistered = 0;
+        ResultSet resultSet = MyConnection.statement.executeQuery("SELECT COUNT(*) FROM visitors " +
+                "WHERE status = 'current' AND registrationDate BETWEEN " + queryTime + ";");
+        while (resultSet.next()) registered = resultSet.getInt(1);
+        ResultSet resultSet2 = MyConnection.statement.executeQuery("SELECT COUNT(*) FROM visitors " +
+                "WHERE status = 'former' AND deletionDate BETWEEN " + queryTime + ";");
+        while (resultSet2.next()) unregistered = resultSet2.getInt(1);
+
+        System.out.print("\nTHE RATION OF REGISTERED/UNREGISTERED USERS FROM " + start + " TO " + end + ": " + registered + "/" + unregistered);
+        Manager.mMenu();
+    }
+     */
+
+    /*
+    static void deleteAccount() throws ClassNotFoundException, SQLException, IOException {
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("\nARE YOU SURE YOU WANT TO DELETE YOUR ACCOUNT? (1 - YES / 0 - NO): ");
+        String choice = scanner.nextLine();
+
+        if (choice.equals("1")) {
+            MyConnection.statement.executeUpdate("UPDATE visitors SET status = 'former' " +
+                    "WHERE firstname = '" + Visitor.getFirstName() + "' AND lastname = '" + Visitor.getLastName() + "' AND password = '"
+                    + Visitor.getPassword() + "';");
+            MyConnection.statement.executeUpdate("UPDATE visitors SET deletionDate = now() " +
+                    "WHERE firstname = '" + Visitor.getFirstName() + "' AND lastname = '" + Visitor.getLastName() + "' AND password = '" +
+                    Visitor.getPassword() + "';");
+            System.out.println("\nYOUR ACCOUNT HAS BEEN DELETED");
+            UserMenuView.openMainMenu();
+        }
+        else vMenu();
+    }
+     */
+
+        /*
+    static void getBalance() throws ClassNotFoundException, SQLException, IOException {
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
+        ResultSet resultSet = MyConnection.statement.executeQuery("SELECT balance FROM visitors " +
+                "WHERE firstName = '" + Visitor.getFirstName() + "' AND lastName = '" + Visitor.getLastName() + "' AND password = '"  + Visitor.getPassword() + "';");
+        int balance = 0;
+        while (resultSet.next())  balance = resultSet.getInt(1);
+
+        System.out.print("\n" + Visitor.getFirstName() + " " + Visitor.getLastName() + "'s balance: " + balance);
+        Visitor.vMenu();
     }
      */
 }

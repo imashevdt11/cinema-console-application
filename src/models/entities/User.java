@@ -7,27 +7,40 @@ import java.util.Scanner;
 
 public abstract class User implements Assignment, Movie, Review, Session, Ticket {
 
-    private static String firstName;
-    private static String lastName;
-    private static String password;
+    private String firstName;
+    private String lastName;
+    private String password;
 
-    static void setFirstName(String firstName) {
-        User.firstName = firstName;
+    public User() {}
+
+    public User(String firstName, String lastName, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
     }
-    static void setLastName(String lastName) {
-        User.lastName = lastName;
-    }
-    static void setPassword(String password) {
-        User.password = password;
-    }
-    public static String getFirstName() {
+
+    public String getFirstName() {
         return firstName;
     }
-    public static String getLastName() {
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
         return lastName;
     }
-    public static String getPassword() {
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public static User getUserObject(Scanner scanner) {
@@ -60,4 +73,6 @@ public abstract class User implements Assignment, Movie, Review, Session, Ticket
     }
 
     public abstract void chooseMenuOption(Scanner scanner);
+
+    public abstract void login(Scanner scanner);
 }

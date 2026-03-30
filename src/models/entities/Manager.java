@@ -1,44 +1,20 @@
 package models.entities;
 
 import configurations.MyConnection;
-import models.interfaces.*;
-import views.UserMenuView;
 
-import java.util.Scanner;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 public class Manager extends User {
+
+    public Manager() {}
 
     public void chooseMenuOption(Scanner scanner) {
 
         try {
-            System.out.println("\n———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————");
-            System.out.print("""
-                    \nENTER THE NUMBER OF MENU'S OPTION
-                    
-                    1 - ASSIGNMENTS
-                    2 - SCHEDULE
-                    3 - REVIEWS
-                    4 - MOVIES
-                    
-                    5 - REMOVE ADMINISTRATOR
-                    6 - REQUEST ASSIGNMENT
-                    7 - ADD ADMINISTRATOR
-                    
-                    SEARCH
-                    8 - VISITOR
-                    9 - ADMIN
-                    
-                    REPORTS
-                    10 - STATISTICS OF REGISTERED/UNREGISTERED USERS
-                    11 - TICKETS REVENUE
-                    
-                    12 - LOG OUT OF ACCOUNT
-                    0 - SHUT DOWN THE PROGRAMME:\040""");
             String choice = scanner.nextLine();
-            System.out.println("\n———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————");
 
             switch (choice) {
 
@@ -76,7 +52,6 @@ public class Manager extends User {
                 case "0" -> System.out.print("\nGOODBYE! HAVE A NICE DAY!\n");
                 default -> {
                     System.out.println("\nTHE ENTERED MENU NUMBER IS INVALID");
-                    chooseMenuOption(scanner);
                 }
             }
         } catch (Exception e) {
@@ -84,10 +59,7 @@ public class Manager extends User {
         }
     }
 
-    /*
-    public static void mLogIn() throws SQLException {
-
-        Scanner scanner = new Scanner(System.in);
+    public void login(Scanner scanner) {
 
         System.out.print("\nFIRST NAME: ");
         String firstName = scanner.nextLine();
@@ -96,32 +68,38 @@ public class Manager extends User {
         System.out.print("PASSWORD: ");
         String password = scanner.nextLine();
 
-        Manager.setFirstName(firstName);
-        Manager.setLastName(lastName);
-        Manager.setPassword(password);
+        setFirstName(firstName);
+        setLastName(lastName);
+        setPassword(password);
 
         boolean isUserExists = false;
-        PreparedStatement preparedStatement = MyConnection.connection.prepareStatement("SELECT firstName, lastName, password, status " +
-                "FROM managers WHERE firstName = ? AND lastName = ? AND password = ? AND status = 'current'");
-        {
-            preparedStatement.setString(1, firstName);
-            preparedStatement.setString(2, lastName);
-            preparedStatement.setString(3, password);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) isUserExists = true;
+        try {
+            PreparedStatement preparedStatement = MyConnection.connection.prepareStatement("SELECT firstName, lastName, password, status " +
+                    "FROM managers WHERE firstName = ? AND lastName = ? AND password = ? AND status = 'current'");
+            {
+                preparedStatement.setString(1, firstName);
+                preparedStatement.setString(2, lastName);
+                preparedStatement.setString(3, password);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) isUserExists = true;
+                }
             }
+        } catch (SQLException e) {
+            System.out.printf("ERROR!!! SQL problems: {%s}", e.getMessage());
         }
-        if (isUserExists) choose();
-        else {
+        if (!isUserExists) {
             System.out.print("""
                     \nNO DATA FOUND
-                    
+
                     DO YOU WANT TO TRY AGAIN? (1 - YES / 0 - NO):\040""");
             String choice = scanner.nextLine();
 
-            if (choice.equals("1")) mLogIn();
+            if (choice.equals("1")) {
+                login(scanner);
+            } else{
+                System.out.println("GOODBYE! HAVE A NICE DAY!\n");
+            }
 //            else UserMenuView.openMainMenu();
         }
     }
-     */
 }
