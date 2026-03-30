@@ -1,8 +1,8 @@
-package models;
+package models.entities;
 
 import configurations.MyConnection;
-import interfaces.*;
-import views.MenuView;
+import models.interfaces.*;
+import views.UserMenuView;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -10,10 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class  Admin extends User {
-    public static void aMenu() throws ClassNotFoundException, SQLException, IOException {
+public class Admin extends User {
+    public void chooseMenuOption(Scanner scanner) {
 
-        Scanner scanner = new Scanner(System.in);
         System.out.println("\n———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————");
         System.out.print("""
                 \nENTER THE NUMBER OF MENU'S OPTION
@@ -37,39 +36,41 @@ public class  Admin extends User {
         switch (choice) {
 
             case "1" -> {
-                Assignment.getAssignments();
-                aMenu();
+//                Assignment.getAssignments();
+                chooseMenuOption(scanner);
             }
             case "2" -> {
-                Session.getSchedule();
-                aMenu();
+//                Session.getSchedule();
+                chooseMenuOption(scanner);
             }
             case "3" -> {
-                Review.getReviews();
-                aMenu();
+//                Review.getReviews();
+                chooseMenuOption(scanner);
             }
             case "4" -> {
-                Movie.getMovies();
-                aMenu();
+//                Movie.getMovies();
+                chooseMenuOption(scanner);
             }
 
-            case "5" -> Assignment.completeAssignment();
-            case "6" -> Review.replyReview();
+//            case "5" -> Assignment.completeAssignment();
+//            case "6" -> Review.replyReview();
             case "7" -> {
-                Visitor.findVisitor();
-                aMenu();
+//                Visitor.findVisitor();
+                chooseMenuOption(scanner);
             }
-            case "8" -> Session.addSession();
-            case "9" -> Movie.addMovie();
+//            case "8" -> Session.addSession();
+//            case "9" -> Movie.addMovie();
 
-            case "10" -> MenuView.openMainMenu();
+//            case "10" -> UserMenuView.openMainMenu();
             case "0" -> System.out.print("\nGOODBYE! HAVE A NICE DAY!\n");
             default -> {
                 System.out.println("\nTHE ENTERED MENU NUMBER IS INVALID");
-                aMenu();
+                chooseMenuOption(scanner);
             }
         }
     }
+
+    /*
     static void removeAdmin() throws ClassNotFoundException, SQLException {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -88,8 +89,11 @@ public class  Admin extends User {
                 "WHERE firstname = '" + firstName + "' AND lastname = '" + lastName + "' AND password = '" + password + "';");
 
         System.out.println("\n" + firstName + " " + lastName + "'s DATA CHANGED");
-        Manager.mMenu();
+        chooseMenuOption(scanner);
     }
+     */
+
+    /*
     static void findAdmin() throws ClassNotFoundException, SQLException {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -113,9 +117,11 @@ public class  Admin extends User {
             System.out.printf("%-35s", resultSet.getString(7));
             System.out.println();
         }
-        Manager.mMenu();
+        chooseMenuOption(scanner);
     }
+     */
 
+    /*
     static void addAdmin() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Scanner scanner = new Scanner(System.in);
@@ -134,7 +140,7 @@ public class  Admin extends User {
                     DO YOU WANT TO TRY AGAIN? (1 - YES / 0 - NO):\040""");
             String choice = scanner.nextLine();
             if (choice.equals("1")) addAdmin();
-            else Manager.mMenu();
+            else chooseMenuOption();
         } else {
             Admin.setFirstName(firstName);
             Admin.setLastName(lastName);
@@ -161,6 +167,9 @@ public class  Admin extends User {
             }
         }
     }
+     */
+
+    /*
     public static void aLogIn() throws ClassNotFoundException, SQLException, IOException {
 
         Scanner scanner = new Scanner(System.in);
@@ -197,8 +206,9 @@ public class  Admin extends User {
             String choice = scanner.nextLine();
 
             if (choice.equals("1")) aLogIn();
-            else MenuView.openMainMenu();
+            else UserMenuView.openMainMenu();
         }
     }
+     */
 }
 

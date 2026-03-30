@@ -1,8 +1,8 @@
-package models;
+package models.entities;
 
-import interfaces.*;
+import models.interfaces.*;
 import configurations.MyConnection;
-import views.MenuView;
+import views.UserMenuView;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.io.IOException;
 
 public class Visitor extends User {
+
+    /*
     static void replenishTheBalance() throws ClassNotFoundException, SQLException, IOException {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -26,6 +28,9 @@ public class Visitor extends User {
         System.out.println("\nDATA SAVED");
         Visitor.vMenu();
     }
+     */
+
+    /*
     static void getUsersStatistic() throws ClassNotFoundException, SQLException {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -49,6 +54,9 @@ public class Visitor extends User {
         System.out.print("\nTHE RATION OF REGISTERED/UNREGISTERED USERS FROM " + start + " TO " + end + ": " + registered + "/" + unregistered);
         Manager.mMenu();
     }
+     */
+
+    /*
     static void deleteAccount() throws ClassNotFoundException, SQLException, IOException {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -65,11 +73,13 @@ public class Visitor extends User {
                     "WHERE firstname = '" + Visitor.getFirstName() + "' AND lastname = '" + Visitor.getLastName() + "' AND password = '" +
                     Visitor.getPassword() + "';");
             System.out.println("\nYOUR ACCOUNT HAS BEEN DELETED");
-            MenuView.openMainMenu();
+            UserMenuView.openMainMenu();
         }
         else vMenu();
     }
-    public static void vMenu() throws ClassNotFoundException, SQLException, IOException {
+     */
+
+    public void chooseMenuOption(Scanner scanner) {
 
         System.out.println("\n———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————");
         System.out.print("""
@@ -90,36 +100,37 @@ public class Visitor extends User {
                 10 - LOG OUT OF ACCOUNT
                 0 - SHUT DOWN THE PROGRAMME:\040""");
 
-        Scanner scanner = new Scanner(System.in);
         String choice = scanner.nextLine();
         System.out.println("\n———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————");
 
         switch (choice) {
 
             case "1" -> {
-                Session.getSchedule();
-                vMenu();
+//                Session.getSchedule();
+                chooseMenuOption(scanner);
             }
             case "2" -> {
-                Review.getReviews();
-                vMenu();
+//                Review.getReviews();
+                chooseMenuOption(scanner);
             }
-            case "3" -> getBalance();
-            case "4" -> Ticket.getBoughtTickets();
-            case "5" -> Ticket.findTicket();
-            case "6" -> Ticket.buyTicket();
-            case "7" -> replenishTheBalance();
-            case "8" -> deleteAccount();
-            case "9" -> Review.addReview();
+//            case "3" -> getBalance();
+//            case "4" -> Ticket.getBoughtTickets();
+//            case "5" -> Ticket.findTicket();
+//            case "6" -> Ticket.buyTicket();
+//            case "7" -> replenishTheBalance();
+//            case "8" -> deleteAccount();
+//            case "9" -> Review.addReview();
 
-            case "10" -> MenuView.openMainMenu();
+//            case "10" -> UserMenuView.openMainMenu();
             case "0" -> System.out.print("\nGOODBYE! HAVE A NICE DAY!\n");
             default -> {
                 System.out.println("\nTHE ENTERED MENU NUMBER IS INVALID");
-                vMenu();
+                chooseMenuOption(scanner);
             }
         }
     }
+
+    /*
     static void getBalance() throws ClassNotFoundException, SQLException, IOException {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -132,6 +143,9 @@ public class Visitor extends User {
         System.out.print("\n" + Visitor.getFirstName() + " " + Visitor.getLastName() + "'s balance: " + balance);
         Visitor.vMenu();
     }
+     */
+
+    /*
     public static void vLogIn() throws ClassNotFoundException, SQLException, IOException {
 
         Scanner scanner = new Scanner(System.in);
@@ -168,9 +182,12 @@ public class Visitor extends User {
             String choice = scanner.nextLine();
 
             if (choice.equals("1")) vLogIn();
-            else MenuView.openMainMenu();
+            else UserMenuView.openMainMenu();
         }
     }
+     */
+
+    /*
     public static void signUp() throws ClassNotFoundException, SQLException, IOException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Scanner scannerInt = new Scanner(System.in);
@@ -193,7 +210,7 @@ public class Visitor extends User {
                         DO YOU WANT TO TRY AGAIN? (1 - YES / 0 - NO):\040""");
                 String choice = scanner.nextLine();
                 if (choice.equals("1")) signUp();
-                else MenuView.openMainMenu();
+                else UserMenuView.openMainMenu();
             }
             else {
                 Visitor.setFirstName(firstName);
@@ -216,7 +233,7 @@ public class Visitor extends User {
                     MyConnection.statement.executeUpdate("INSERT INTO visitors(firstName, lastName, phoneNumber, password, balance) " +
                             "VALUES ('" + firstName + "', '" + lastName + "', '" + phoneNumber + "', '" + password + "', " + balance + ");");
                     System.out.println("\n" + firstName + " " + lastName + "'s DATA IS STORED IN THE DATABASE");
-                    MenuView.openMainMenu();
+                    UserMenuView.openMainMenu();
                 }
             }
         } catch (InputMismatchException exception) {
@@ -224,6 +241,9 @@ public class Visitor extends User {
             signUp();
         }
     }
+     */
+
+    /*
     static void findVisitor() throws ClassNotFoundException, SQLException {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -247,5 +267,6 @@ public class Visitor extends User {
             System.out.println();
         }
     }
+     */
 }
 

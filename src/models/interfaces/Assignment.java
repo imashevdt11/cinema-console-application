@@ -1,8 +1,8 @@
-package interfaces;
+package models.interfaces;
 
 import configurations.MyConnection;
-import models.Admin;
-import models.Manager;
+import models.entities.Admin;
+import models.entities.Manager;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public interface Assignment {
+
+    /*
     static void completeAssignment() throws ClassNotFoundException, SQLException, IOException {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -61,6 +63,9 @@ public interface Assignment {
             Admin.aMenu();
         }
     }
+     */
+
+    /*
     static void requestAssignment() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Scanner scanner = new Scanner(System.in);
@@ -86,6 +91,9 @@ public interface Assignment {
         System.out.println("\nTHE ASSIGNMENT IS REQUESTED");
         Manager.mMenu();
     }
+     */
+
+    /*
     static void getAssignments() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Scanner scanner = new Scanner(System.in);
@@ -112,4 +120,5 @@ public interface Assignment {
                 System.out.printf("%-30s", resultSet.getString(3));
                 System.out.println();}}
     }
+     */
 }

@@ -1,8 +1,8 @@
-package models;
+package models.entities;
 
 import configurations.MyConnection;
-import interfaces.*;
-import views.MenuView;
+import models.interfaces.*;
+import views.UserMenuView;
 
 import java.util.Scanner;
 import java.sql.PreparedStatement;
@@ -10,10 +10,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Manager extends User {
-    public static void mMenu() {
+
+    public void chooseMenuOption(Scanner scanner) {
 
         try {
-            Scanner scanner = new Scanner(System.in);
             System.out.println("\n———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————");
             System.out.print("""
                     \nENTER THE NUMBER OF MENU'S OPTION
@@ -43,46 +43,48 @@ public class Manager extends User {
             switch (choice) {
 
                 case "1" -> {
-                    Assignment.getAssignments();
-                    mMenu();
+//                    Assignment.getAssignments();
+                    chooseMenuOption(scanner);
                 }
                 case "2" -> {
-                    Session.getSchedule();
-                    mMenu();
+//                    Session.getSchedule();
+                    chooseMenuOption(scanner);
                 }
                 case "3" -> {
-                    Review.getReviews();
-                    mMenu();
+//                    Review.getReviews();
+                    chooseMenuOption(scanner);
                 }
                 case "4" -> {
-                    Movie.getMovies();
-                    mMenu();
+//                    Movie.getMovies();
+                    chooseMenuOption(scanner);
                 }
 
-                case "5" -> Admin.removeAdmin();
-                case "6" -> Assignment.requestAssignment();
-                case "7" -> Admin.addAdmin();
+//                case "5" -> Admin.removeAdmin();
+//                case "6" -> Assignment.requestAssignment();
+//                case "7" -> Admin.addAdmin();
 
                 case "8" -> {
-                    Visitor.findVisitor();
-                    mMenu();
+//                    Visitor.findVisitor();
+                    chooseMenuOption(scanner);
                 }
-                case "9" -> Admin.findAdmin();
+//                case "9" -> Admin.findAdmin();
 
-                case "10" -> Visitor.getUsersStatistic();
-                case "11" -> Ticket.getIncomeStatement();
+//                case "10" -> Visitor.getUsersStatistic();
+//                case "11" -> Ticket.getIncomeStatement();
 
-                case "12" -> MenuView.openMainMenu();
+//                case "12" -> UserMenuView.openMainMenu(); // TODO: implement option to back to main menu
                 case "0" -> System.out.print("\nGOODBYE! HAVE A NICE DAY!\n");
                 default -> {
                     System.out.println("\nTHE ENTERED MENU NUMBER IS INVALID");
-                    mMenu();
+                    chooseMenuOption(scanner);
                 }
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
+
+    /*
     public static void mLogIn() throws SQLException {
 
         Scanner scanner = new Scanner(System.in);
@@ -109,7 +111,7 @@ public class Manager extends User {
                 if (resultSet.next()) isUserExists = true;
             }
         }
-        if (isUserExists) mMenu();
+        if (isUserExists) choose();
         else {
             System.out.print("""
                     \nNO DATA FOUND
@@ -118,7 +120,8 @@ public class Manager extends User {
             String choice = scanner.nextLine();
 
             if (choice.equals("1")) mLogIn();
-            else MenuView.openMainMenu();
+//            else UserMenuView.openMainMenu();
         }
     }
+     */
 }

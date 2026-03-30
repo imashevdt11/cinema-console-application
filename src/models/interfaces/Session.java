@@ -1,13 +1,15 @@
-package interfaces;
+package models.interfaces;
 
 import configurations.MyConnection;
-import models.Admin;
+import models.entities.Admin;
 
 import java.io.IOException;
 import java.util.*;
 import java.sql.*;
 
 public interface Session {
+
+    /*
     static void addSession() throws ClassNotFoundException, SQLException, IOException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Scanner intScanner = new Scanner(System.in);
@@ -131,6 +133,9 @@ public interface Session {
             addSession();
         }
     }
+     */
+
+    /*
     static void getSchedule() throws ClassNotFoundException, SQLException {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -158,5 +163,6 @@ public interface Session {
             System.out.println();
         }
     }
+     */
 }
 

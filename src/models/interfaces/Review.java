@@ -1,14 +1,16 @@
-package interfaces;
+package models.interfaces;
 
 import configurations.MyConnection;
-import models.Admin;
-import models.Visitor;
+import models.entities.Admin;
+import models.entities.Visitor;
 
 import java.io.IOException;
 import java.util.Scanner;
 import java.sql.*;
 
 public interface Review {
+
+    /*
     static void replyReview() throws ClassNotFoundException, SQLException, IOException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Scanner scanner = new Scanner(System.in);
@@ -36,6 +38,9 @@ public interface Review {
         System.out.println("\nDATA SAVED");
         Admin.aMenu();
     }
+     */
+
+    /*
     static void addReview() throws ClassNotFoundException, SQLException, IOException {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -61,6 +66,9 @@ public interface Review {
         System.out.println("\nREVIEW HAS BEEN ADDED");
         Visitor.vMenu();
     }
+     */
+
+    /*
     static void getReviews() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Scanner scanner = new Scanner(System.in);
@@ -91,6 +99,7 @@ public interface Review {
             }
         }
     }
+     */
 }
 
 

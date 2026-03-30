@@ -1,8 +1,8 @@
-package interfaces;
+package models.interfaces;
 
 import configurations.MyConnection;
-import models.Manager;
-import models.Visitor;
+import models.entities.Manager;
+import models.entities.Visitor;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public interface Ticket {
+
+    /*
     static void getIncomeStatement() throws ClassNotFoundException, SQLException {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -29,6 +31,9 @@ public interface Ticket {
         System.out.print("\nPROFIT FROM TICKETS SOLD FOR THE PERIOD FROM " + start + " TO " + end + ": " + profit + " KGS");
         Manager.mMenu();
     }
+     */
+
+    /*
     static void getBoughtTickets() throws ClassNotFoundException, SQLException, IOException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         ResultSet resultSet = MyConnection.statement.executeQuery(
@@ -56,6 +61,9 @@ public interface Ticket {
             System.out.println();
         } Visitor.vMenu();
     }
+     */
+
+    /*
     static void findTicket() throws ClassNotFoundException, SQLException, IOException {
 
         Scanner scanner = new Scanner(System.in);
@@ -82,6 +90,9 @@ public interface Ticket {
             System.out.println();
         }Visitor.vMenu();
     }
+     */
+
+    /*
     static void buyTicket() throws ClassNotFoundException, SQLException, IOException {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -135,5 +146,6 @@ public interface Ticket {
             Visitor.vMenu();
         }
     }
+     */
 }
 

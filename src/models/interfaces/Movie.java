@@ -1,7 +1,7 @@
-package interfaces;
+package models.interfaces;
 
 import configurations.MyConnection;
-import models.Admin;
+import models.entities.Admin;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public interface Movie {
+
+    /*
     static void addMovie() throws ClassNotFoundException, NumberFormatException, SQLException, IOException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Scanner scanner = new Scanner(System.in);
@@ -73,6 +75,9 @@ public interface Movie {
             }
         }
     }
+     */
+
+    /*
     static void getMovies() throws ClassNotFoundException, SQLException {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -90,6 +95,7 @@ public interface Movie {
             System.out.println();
         }
     }
+     */
 }
 
 
