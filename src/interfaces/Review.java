@@ -1,8 +1,7 @@
 package interfaces;
 
 import configurations.MyConnection;
-import models.Admin;
-import models.Visitor;
+import accounts.*;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -19,7 +18,7 @@ public interface Review {
         if (reply.length() > 80) {
             System.out.println("""
                     \nYOU HAVE ENTERED THE NUMBER OF CHARACTERS EXCEEDING THE SPECIFIED LIMIT
-
+                                        
                     DO YOU WANT TO TRY AGAIN? (1 - YES / 0 - NO):\040""");
             String choice = scanner.nextLine();
             if (choice.equals("1")) replyReview();
@@ -45,7 +44,7 @@ public interface Review {
         if (review.length() > 80) {
             System.out.println("""
                     \nYOU HAVE ENTERED THE NUMBER OF CHARACTERS EXCEEDING THE SPECIFIED LIMIT
-                    
+                                        
                     DO YOU WANT TO TRY AGAIN? (1 - YES / 0 - NO):\040""");
             String choice = scanner.nextLine();
             if (choice.equals("1")) addReview();

@@ -1,14 +1,11 @@
 package interfaces;
 
 import configurations.MyConnection;
-import models.Admin;
-import models.Manager;
+import accounts.*;
 
 import java.io.IOException;
 import java.util.Scanner;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public interface Assignment {
     static void completeAssignment() throws ClassNotFoundException, SQLException, IOException {
@@ -61,7 +58,7 @@ public interface Assignment {
             Admin.aMenu();
         }
     }
-    static void requestAssignment() throws ClassNotFoundException, SQLException {
+    static void requestAssignment() throws ClassNotFoundException, SQLException, IOException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Scanner scanner = new Scanner(System.in);
         System.out.print("\nENTER THE ASSIGNMENT (MUST CONTAIN LESS THAN 80 CHARACTERS): ");

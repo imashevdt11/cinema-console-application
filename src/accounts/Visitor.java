@@ -1,8 +1,7 @@
-package models;
+package accounts;
 
 import interfaces.*;
 import configurations.MyConnection;
-import views.MenuView;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -26,7 +25,7 @@ public class Visitor extends User {
         System.out.println("\nDATA SAVED");
         Visitor.vMenu();
     }
-    static void getUsersStatistic() throws ClassNotFoundException, SQLException {
+    static void getUsersStatistic() throws ClassNotFoundException, SQLException, IOException {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
         Scanner scanner = new Scanner(System.in);
@@ -65,7 +64,7 @@ public class Visitor extends User {
                     "WHERE firstname = '" + Visitor.getFirstName() + "' AND lastname = '" + Visitor.getLastName() + "' AND password = '" +
                     Visitor.getPassword() + "';");
             System.out.println("\nYOUR ACCOUNT HAS BEEN DELETED");
-            MenuView.openMainMenu();
+            typeChoosing();
         }
         else vMenu();
     }
@@ -112,7 +111,7 @@ public class Visitor extends User {
             case "8" -> deleteAccount();
             case "9" -> Review.addReview();
 
-            case "10" -> MenuView.openMainMenu();
+            case "10" -> typeChoosing();
             case "0" -> System.out.print("\nGOODBYE! HAVE A NICE DAY!\n");
             default -> {
                 System.out.println("\nTHE ENTERED MENU NUMBER IS INVALID");
@@ -132,7 +131,7 @@ public class Visitor extends User {
         System.out.print("\n" + Visitor.getFirstName() + " " + Visitor.getLastName() + "'s balance: " + balance);
         Visitor.vMenu();
     }
-    public static void vLogIn() throws ClassNotFoundException, SQLException, IOException {
+    static void vLogIn() throws ClassNotFoundException, SQLException, IOException {
 
         Scanner scanner = new Scanner(System.in);
 
@@ -168,10 +167,10 @@ public class Visitor extends User {
             String choice = scanner.nextLine();
 
             if (choice.equals("1")) vLogIn();
-            else MenuView.openMainMenu();
+            else typeChoosing();
         }
     }
-    public static void signUp() throws ClassNotFoundException, SQLException, IOException {
+    static void signUp() throws ClassNotFoundException, SQLException, IOException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Scanner scannerInt = new Scanner(System.in);
         Scanner scanner = new Scanner(System.in);
@@ -193,7 +192,7 @@ public class Visitor extends User {
                         DO YOU WANT TO TRY AGAIN? (1 - YES / 0 - NO):\040""");
                 String choice = scanner.nextLine();
                 if (choice.equals("1")) signUp();
-                else MenuView.openMainMenu();
+                else typeChoosing();
             }
             else {
                 Visitor.setFirstName(firstName);
@@ -216,8 +215,7 @@ public class Visitor extends User {
                     MyConnection.statement.executeUpdate("INSERT INTO visitors(firstName, lastName, phoneNumber, password, balance) " +
                             "VALUES ('" + firstName + "', '" + lastName + "', '" + phoneNumber + "', '" + password + "', " + balance + ");");
                     System.out.println("\n" + firstName + " " + lastName + "'s DATA IS STORED IN THE DATABASE");
-                    MenuView.openMainMenu();
-                }
+                    typeChoosing();}
             }
         } catch (InputMismatchException exception) {
             System.out.println("\nPLEASE, ENTER THE BALANCE IN NUMERIC FORMAT");
