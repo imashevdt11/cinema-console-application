@@ -16,7 +16,7 @@ public interface Ticket {
         String queryTime = "'" + start + " 00:00:00' AND '" + end + " 23:59:59'";
         int profit = 0;
 
-        ResultSet resultSet = MyConnection.statement.executeQuery("SELECT SUM(ticketPrice) FROM tickets " +
+        ResultSet resultSet = DatabaseConfiguration.statement.executeQuery("SELECT SUM(ticketPrice) FROM tickets " +
                 "WHERE status = 'sold' AND dateOfPurchase BETWEEN " + queryTime + ";");
         while (resultSet.next()) profit = resultSet.getInt(1);
         System.out.print("\nPROFIT FROM TICKETS SOLD FOR THE PERIOD FROM " + start + " TO " + end + ": " + profit + " KGS");
@@ -27,12 +27,12 @@ public interface Ticket {
     /*
     static void getBoughtTickets() throws ClassNotFoundException, SQLException, IOException {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        ResultSet resultSet = MyConnection.statement.executeQuery(
+        ResultSet resultSet = DatabaseConfiguration.statement.executeQuery(
                 "SELECT * FROM visitors WHERE password = '" + Visitor.getPassword() + "';");
         String visitorData = null;
         if (resultSet.next()) visitorData = resultSet.getString(1);
         String visitorID = visitorData;
-        ResultSet resultSet2 = MyConnection.statement.executeQuery(
+        ResultSet resultSet2 = DatabaseConfiguration.statement.executeQuery(
                 "SELECT t.ticketID, m.movieName, h.hallName, s.startTime,  t.rowW, t.place, t.ticketPrice " +
                         "FROM sessions s, movies m, halls h, visitors v, tickets t " +
                         "WHERE s.hallID = h.hallID AND s.movieID = m.movieID " +
@@ -63,7 +63,7 @@ public interface Ticket {
         System.out.println();
         System.out.print("\nENTER THE MOVIE: ");
         String movie = scanner.nextLine();
-        ResultSet resultSet = MyConnection.statement.executeQuery(
+        ResultSet resultSet = DatabaseConfiguration.statement.executeQuery(
                 "SELECT t.ticketID, s.startTime, m.movieName, h.hallName, t.rowW, t.place, t.ticketPrice" +
                 " FROM movies m, halls h, sessions s, tickets t  " +
                 "WHERE movieName = '" + movie + "' AND status = 'available' AND m.movieID = s.movieID AND h.hallID = s.hallID AND s.sessionID = t.sessionID;");
@@ -90,7 +90,7 @@ public interface Ticket {
         Scanner scanner = new Scanner(System.in);
         System.out.print("\nENTER THE TICKET ID: ");
         int ticketID = scanner.nextInt();
-        ResultSet ticketResultSet = MyConnection.statement.executeQuery("SELECT * FROM tickets WHERE ticketID = " + ticketID + ";");
+        ResultSet ticketResultSet = DatabaseConfiguration.statement.executeQuery("SELECT * FROM tickets WHERE ticketID = " + ticketID + ";");
         int ticketPrice = 0;
         String sessionData = null;
         String ticketStatusCheck = null;
@@ -103,7 +103,7 @@ public interface Ticket {
         String ticketStatus = ticketStatusCheck;
 
         if (ticketStatus.equals("available")) {
-            ResultSet resultSet = MyConnection.statement.executeQuery(
+            ResultSet resultSet = DatabaseConfiguration.statement.executeQuery(
                     "SELECT * FROM visitors WHERE password = '" + Visitor.getPassword() + "';");
             String visitorData = null;
             int balance = 0;
@@ -114,17 +114,17 @@ public interface Ticket {
 
             String visitorID = visitorData;
             if (balance > ticketPrice) {
-                MyConnection.statement.executeUpdate("UPDATE tickets SET status = 'sold' " +
+                DatabaseConfiguration.statement.executeUpdate("UPDATE tickets SET status = 'sold' " +
                         "WHERE ticketID = " + ticketID + ";");
-                MyConnection.statement.executeUpdate("UPDATE tickets SET visitorID = " + visitorID +
+                DatabaseConfiguration.statement.executeUpdate("UPDATE tickets SET visitorID = " + visitorID +
                     " WHERE ticketID = " + ticketID + ";");
-                MyConnection.statement.executeUpdate("UPDATE tickets SET dateOfPurchase = now() " +
+                DatabaseConfiguration.statement.executeUpdate("UPDATE tickets SET dateOfPurchase = now() " +
                     "WHERE ticketID = " + ticketID + ";");
-                MyConnection.statement.executeUpdate("UPDATE sessions SET numberOfAvailableTickets = (numberOfAvailableTickets - 1) " +
+                DatabaseConfiguration.statement.executeUpdate("UPDATE sessions SET numberOfAvailableTickets = (numberOfAvailableTickets - 1) " +
                     "WHERE sessionID = '" + sessionID + "';");
-                MyConnection.statement.executeUpdate("UPDATE sessions SET numberOfSoldTickets = (numberOfSoldTickets + 1)  " +
+                DatabaseConfiguration.statement.executeUpdate("UPDATE sessions SET numberOfSoldTickets = (numberOfSoldTickets + 1)  " +
                     "WHERE sessionID = '" + sessionID + "';");
-                MyConnection.statement.executeUpdate("UPDATE visitors SET balance = (balance - " + ticketPrice + ")  " +
+                DatabaseConfiguration.statement.executeUpdate("UPDATE visitors SET balance = (balance - " + ticketPrice + ")  " +
                     "WHERE password = '" + Visitor.getPassword() + "';");
                 System.out.println("\nDATA SAVED");
                 Visitor.vMenu();

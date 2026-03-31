@@ -1,6 +1,6 @@
 package models;
 
-import configurations.MyConnection;
+import configurations.DatabaseConfiguration;
 import constants.UserSqlQueries;
 import services.AssignmentService;
 
@@ -72,7 +72,7 @@ public class Admin extends User {
         boolean isUserExists = false;
         try {
             PreparedStatement preparedStatement =
-                    MyConnection.connection.prepareStatement(UserSqlQueries.ADMINS_LOGIN_QUERY);
+                    DatabaseConfiguration.connection.prepareStatement(UserSqlQueries.ADMINS_LOGIN_QUERY);
 
             preparedStatement.setString(1, firstName);
             preparedStatement.setString(2, lastName);
@@ -113,9 +113,9 @@ public class Admin extends User {
         System.out.print("PASSWORD: ");
         String password = scanner.nextLine();
 
-        MyConnection.statement.executeUpdate("UPDATE admins SET status = 'former' " +
+        DatabaseConfiguration.statement.executeUpdate("UPDATE admins SET status = 'former' " +
                 "WHERE firstname = '" + firstName + "' AND lastname = '" + lastName + "' AND password = '" + password + "';");
-        MyConnection.statement.executeUpdate("UPDATE admins SET dateofdismissal = now() " +
+        DatabaseConfiguration.statement.executeUpdate("UPDATE admins SET dateofdismissal = now() " +
                 "WHERE firstname = '" + firstName + "' AND lastname = '" + lastName + "' AND password = '" + password + "';");
 
         System.out.println("\n" + firstName + " " + lastName + "'s DATA CHANGED");
@@ -134,7 +134,7 @@ public class Admin extends User {
         System.out.print("SECOND NAME: ");
         String lastName = scanner.nextLine();
 
-        ResultSet resultSet = MyConnection.statement.executeQuery("SELECT * FROM admins " +
+        ResultSet resultSet = DatabaseConfiguration.statement.executeQuery("SELECT * FROM admins " +
                 "WHERE firstName = '" + firstName + "' AND lastName = '" +  lastName + "';");
 
         System.out.printf("\n%-25s%-25s%-25s%-15s%-35s%n", "FIRST NAME ", "LAST NAME", "PHONE NUMBER", "STATUS", "NUMBER OF COMPLETE ASSIGNMENTS");
@@ -176,7 +176,7 @@ public class Admin extends User {
             Admin.setLastName(lastName);
             Admin.setPassword(password);
             boolean isUserExists = false;
-            PreparedStatement preparedStatement = MyConnection.connection.prepareStatement(
+            PreparedStatement preparedStatement = DatabaseConfiguration.connection.prepareStatement(
                     "SELECT password FROM admins WHERE password = ?"); {
                 preparedStatement.setString(1, password);
             }
@@ -190,7 +190,7 @@ public class Admin extends User {
                 if (choice.equals("1")) addAdmin();
                 else Manager.mMenu();
             } else {
-                MyConnection.statement.executeUpdate("INSERT INTO admins(firstname, lastname, phoneNumber, password) " +
+                DatabaseConfiguration.statement.executeUpdate("INSERT INTO admins(firstname, lastname, phoneNumber, password) " +
                         "VALUES ('" + firstName + "', '" + lastName + "', '" + phoneNumber + "', '" + password + "');");
                 System.out.println("\n" + firstName + " " + lastName + "'s DATA IS STORED IN THE DATABASE");
                 Manager.mMenu();

@@ -9,7 +9,7 @@ public interface Movie {
         System.out.print("\nMOVIE'S NAME: ");
         String movieName = scanner.nextLine();
         boolean isMovieExists = false;
-        PreparedStatement prepareStatement = MyConnection.connection.prepareStatement("SELECT moviename FROM movies WHERE moviename = ?");{
+        PreparedStatement prepareStatement = DatabaseConfiguration.connection.prepareStatement("SELECT moviename FROM movies WHERE moviename = ?");{
             prepareStatement.setString(1, movieName);
             try (ResultSet resultSet = prepareStatement.executeQuery()) {
                 if (resultSet.next()) isMovieExists = true;}}
@@ -54,7 +54,7 @@ public interface Movie {
                     if (choice.equals("1")) addMovie();
                     else Admin.aMenu();
                 } else {
-                    MyConnection.statement.executeUpdate("INSERT into movies " +
+                    DatabaseConfiguration.statement.executeUpdate("INSERT into movies " +
                             "VALUES(NULL, '" + movieName + "', " + duration + ", '" +
                             country + "', '" + genre + "', " + productionYear + ", '" + producer + "');");
                     System.out.println("\nTHE MOVIE HAS BEEN ADDED TO THE DATABASE");
@@ -73,7 +73,7 @@ public interface Movie {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
 
-        ResultSet resultSet = MyConnection.statement.executeQuery("SELECT * FROM movies;");
+        ResultSet resultSet = DatabaseConfiguration.statement.executeQuery("SELECT * FROM movies;");
         System.out.printf("\n%-35s%-30s%-20s%-20s%-30s%-20s%n", "MOVIE", "DURATION(MINUTES)", "COUNTRY", "GENRE", "PRODUCER", "PRODUCTION YEAR");
         System.out.println();
         while (resultSet.next()) {

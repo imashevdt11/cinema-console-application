@@ -19,14 +19,14 @@ public interface Review {
             if (choice.equals("1")) replyReview();
             else Admin.aMenu();
         }
-        ResultSet resultSet = MyConnection.statement.executeQuery("SELECT * FROM admins " +
+        ResultSet resultSet = DatabaseConfiguration.statement.executeQuery("SELECT * FROM admins " +
                 "WHERE firstName = '" + Admin.getFirstName() + "' AND lastName = '" +  Admin.getLastName() + "';");
         String adminID = null;
         while (resultSet.next()) {
             adminID = resultSet.getString(1);
         }
-        MyConnection.statement.executeUpdate("UPDATE reviews SET reply = '" + reply + "' WHERE reviewID =  " + reviewID + ";");
-        MyConnection.statement.executeUpdate("UPDATE reviews SET adminID = " + adminID + " WHERE reviewID =  " + reviewID + ";");
+        DatabaseConfiguration.statement.executeUpdate("UPDATE reviews SET reply = '" + reply + "' WHERE reviewID =  " + reviewID + ";");
+        DatabaseConfiguration.statement.executeUpdate("UPDATE reviews SET adminID = " + adminID + " WHERE reviewID =  " + reviewID + ";");
         System.out.println("\nDATA SAVED");
         Admin.aMenu();
     }
@@ -48,12 +48,12 @@ public interface Review {
             if (choice.equals("1")) addReview();
             else Visitor.vMenu();
         }
-        ResultSet resultSet = MyConnection.statement.executeQuery("" +
+        ResultSet resultSet = DatabaseConfiguration.statement.executeQuery("" +
                 "SELECT * FROM visitors WHERE password = '" + Visitor.getPassword() + "';");
         String visitorResult = null;
         if (resultSet.next()) visitorResult = resultSet.getString(1);
         String visitorID = visitorResult;
-        MyConnection.statement.executeUpdate("INSERT INTO reviews(visitorID, review, dateOfReview) " +
+        DatabaseConfiguration.statement.executeUpdate("INSERT INTO reviews(visitorID, review, dateOfReview) " +
                 "VALUES(" + visitorID + ", '" + review + "', now());");
         System.out.println("\nREVIEW HAS BEEN ADDED");
         Visitor.vMenu();
@@ -64,7 +64,7 @@ public interface Review {
     static void getReviews() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Scanner scanner = new Scanner(System.in);
-        ResultSet resultSet = MyConnection.statement.executeQuery(
+        ResultSet resultSet = DatabaseConfiguration.statement.executeQuery(
                 "SELECT v.firstname, v.lastname, r.reviewID, r.review, r.dateOfReview FROM reviews r, visitors v " +
                         "WHERE v.visitorID = r.visitorID ORDER BY r.dateOfReview");
         System.out.printf("\n%-10s%-45s%-80s%-30s%n", "REVIEW ID", "VISITOR", "REVIEW", "DATE OF REVIEW");
@@ -80,7 +80,7 @@ public interface Review {
         if (choice.equals("1")) {
             System.out.print("ENTER THE REVIEW ID: ");
             choice = scanner.nextLine();
-            ResultSet resultSet2 = MyConnection.statement.executeQuery(
+            ResultSet resultSet2 = DatabaseConfiguration.statement.executeQuery(
                     "SELECT a.firstName, a.lastName, r.reply FROM reviews r, admins a " +
                             "WHERE r.adminID = a.adminID AND reviewID = " + choice + ";");
             System.out.printf("\n%-45s%-80s%n", "ADMIN", "REPLY");

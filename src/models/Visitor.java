@@ -1,6 +1,6 @@
 package models;
 
-import configurations.MyConnection;
+import configurations.DatabaseConfiguration;
 import constants.UserSqlQueries;
 
 import java.util.Scanner;
@@ -58,7 +58,7 @@ public class Visitor extends User {
         boolean isUserExists = false;
         try {
             PreparedStatement preparedStatement =
-                    MyConnection.connection.prepareStatement(UserSqlQueries.VISITORS_LOGIN_QUERY);
+                    DatabaseConfiguration.connection.prepareStatement(UserSqlQueries.VISITORS_LOGIN_QUERY);
 
             preparedStatement.setString(1, firstName);
             preparedStatement.setString(2, lastName);
@@ -116,7 +116,7 @@ public class Visitor extends User {
                 Visitor.setLastName(lastName);
                 Visitor.setPassword(password);
                 boolean isUserExists = false;
-                PreparedStatement prepareStatement = MyConnection.connection.prepareStatement("SELECT password FROM visitors WHERE password = ?");{
+                PreparedStatement prepareStatement = DatabaseConfiguration.connection.prepareStatement("SELECT password FROM visitors WHERE password = ?");{
                     prepareStatement.setString(1, password);
                     try (ResultSet resultSet = prepareStatement.executeQuery()) {
                         if (resultSet.next()) isUserExists = true;}}
@@ -129,7 +129,7 @@ public class Visitor extends User {
                     if (choice.equals("1")) signUp();
                     else vMenu();
                 } else {
-                    MyConnection.statement.executeUpdate("INSERT INTO visitors(firstName, lastName, phoneNumber, password, balance) " +
+                    DatabaseConfiguration.statement.executeUpdate("INSERT INTO visitors(firstName, lastName, phoneNumber, password, balance) " +
                             "VALUES ('" + firstName + "', '" + lastName + "', '" + phoneNumber + "', '" + password + "', " + balance + ");");
                     System.out.println("\n" + firstName + " " + lastName + "'s DATA IS STORED IN THE DATABASE");
                     UserMenuView.openMainMenu();
@@ -153,7 +153,7 @@ public class Visitor extends User {
         System.out.print("SECOND NAME: ");
         String lastName = scanner.nextLine();
 
-        ResultSet resultSet = MyConnection.statement.executeQuery("SELECT * FROM visitors " +
+        ResultSet resultSet = DatabaseConfiguration.statement.executeQuery("SELECT * FROM visitors " +
                 "WHERE firstName = '" + firstName + "' AND lastName = '" +  lastName + "';");
 
         System.out.printf("\n%-30s%-30s%-30s%-30s%n", "FIRST NAME", "LAST NAME", "PHONE NUMBER", "STATUS");
@@ -177,7 +177,7 @@ public class Visitor extends User {
         System.out.print("\nENTER THE AMOUNT OF MONEY YOU WANT TO REPLENISH YOUR BALANCE WITH: ");
         int amountOfMoney = scanner.nextInt();
 
-        MyConnection.statement.executeUpdate("UPDATE visitors SET balance = (balance + " + amountOfMoney + ") " +
+        DatabaseConfiguration.statement.executeUpdate("UPDATE visitors SET balance = (balance + " + amountOfMoney + ") " +
                 "WHERE password = '" + Visitor.getPassword() + "';");
 
         System.out.println("\nDATA SAVED");
@@ -199,10 +199,10 @@ public class Visitor extends User {
 
         int registered = 0;
         int unregistered = 0;
-        ResultSet resultSet = MyConnection.statement.executeQuery("SELECT COUNT(*) FROM visitors " +
+        ResultSet resultSet = DatabaseConfiguration.statement.executeQuery("SELECT COUNT(*) FROM visitors " +
                 "WHERE status = 'current' AND registrationDate BETWEEN " + queryTime + ";");
         while (resultSet.next()) registered = resultSet.getInt(1);
-        ResultSet resultSet2 = MyConnection.statement.executeQuery("SELECT COUNT(*) FROM visitors " +
+        ResultSet resultSet2 = DatabaseConfiguration.statement.executeQuery("SELECT COUNT(*) FROM visitors " +
                 "WHERE status = 'former' AND deletionDate BETWEEN " + queryTime + ";");
         while (resultSet2.next()) unregistered = resultSet2.getInt(1);
 
@@ -221,10 +221,10 @@ public class Visitor extends User {
         String choice = scanner.nextLine();
 
         if (choice.equals("1")) {
-            MyConnection.statement.executeUpdate("UPDATE visitors SET status = 'former' " +
+            DatabaseConfiguration.statement.executeUpdate("UPDATE visitors SET status = 'former' " +
                     "WHERE firstname = '" + Visitor.getFirstName() + "' AND lastname = '" + Visitor.getLastName() + "' AND password = '"
                     + Visitor.getPassword() + "';");
-            MyConnection.statement.executeUpdate("UPDATE visitors SET deletionDate = now() " +
+            DatabaseConfiguration.statement.executeUpdate("UPDATE visitors SET deletionDate = now() " +
                     "WHERE firstname = '" + Visitor.getFirstName() + "' AND lastname = '" + Visitor.getLastName() + "' AND password = '" +
                     Visitor.getPassword() + "';");
             System.out.println("\nYOUR ACCOUNT HAS BEEN DELETED");
@@ -239,7 +239,7 @@ public class Visitor extends User {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
 
-        ResultSet resultSet = MyConnection.statement.executeQuery("SELECT balance FROM visitors " +
+        ResultSet resultSet = DatabaseConfiguration.statement.executeQuery("SELECT balance FROM visitors " +
                 "WHERE firstName = '" + Visitor.getFirstName() + "' AND lastName = '" + Visitor.getLastName() + "' AND password = '"  + Visitor.getPassword() + "';");
         int balance = 0;
         while (resultSet.next())  balance = resultSet.getInt(1);

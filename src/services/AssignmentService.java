@@ -1,6 +1,6 @@
 package services;
 
-import configurations.MyConnection;
+import configurations.DatabaseConfiguration;
 import models.Admin;
 import models.Manager;
 
@@ -18,7 +18,7 @@ public class AssignmentService {
         boolean isAssignmentExists = false;
 
         try {
-            PreparedStatement preparedStatement = MyConnection.connection.prepareStatement("SELECT assignmentID " +
+            PreparedStatement preparedStatement = DatabaseConfiguration.connection.prepareStatement("SELECT assignmentID " +
                     "FROM assignments WHERE assignmentID = ?;");
 
             preparedStatement.setString(1, assignmentID);
@@ -28,7 +28,7 @@ public class AssignmentService {
 
             if (isAssignmentExists) {
                 boolean isAssignmentComplete = false;
-                PreparedStatement preparedStatement2 = MyConnection.connection.prepareStatement("SELECT * FROM assignments " +
+                PreparedStatement preparedStatement2 = DatabaseConfiguration.connection.prepareStatement("SELECT * FROM assignments " +
                         "WHERE assignmentID = ? AND status = 'not done';");
                 {
                     preparedStatement2.setString(1, assignmentID);
@@ -36,18 +36,18 @@ public class AssignmentService {
                         if (resultSet.next()) isAssignmentComplete = true;
                     }
                 }
-                ResultSet resultSet = MyConnection.statement.executeQuery("SELECT * FROM admins " +
+                ResultSet resultSet = DatabaseConfiguration.statement.executeQuery("SELECT * FROM admins " +
                         "WHERE firstName = '" + admin.getFirstName() + "' AND lastName = '" + admin.getLastName() + "';");
                 String adminID = null;
                 while (resultSet.next()) {
                     adminID = resultSet.getString(1);
                 }
                 if (isAssignmentComplete) {
-                    MyConnection.statement.executeUpdate("UPDATE assignments SET status = 'done' WHERE assignmentID = " + assignmentID + ";");
-                    MyConnection.statement.executeUpdate("UPDATE assignments SET dateOfCompletion = now() WHERE assignmentID = " + assignmentID + ";");
-                    MyConnection.statement.executeUpdate("UPDATE admins SET numberOfCompletedAssignments = (numberOfCompletedAssignments + 1) " +
+                    DatabaseConfiguration.statement.executeUpdate("UPDATE assignments SET status = 'done' WHERE assignmentID = " + assignmentID + ";");
+                    DatabaseConfiguration.statement.executeUpdate("UPDATE assignments SET dateOfCompletion = now() WHERE assignmentID = " + assignmentID + ";");
+                    DatabaseConfiguration.statement.executeUpdate("UPDATE admins SET numberOfCompletedAssignments = (numberOfCompletedAssignments + 1) " +
                             "WHERE password = '" + admin.getPassword() + "';");
-                    MyConnection.statement.executeUpdate("UPDATE assignments SET adminID = " + adminID + " WHERE assignmentID = " + assignmentID + ";");
+                    DatabaseConfiguration.statement.executeUpdate("UPDATE assignments SET adminID = " + adminID + " WHERE assignmentID = " + assignmentID + ";");
                     System.out.println("\nDATA SAVED");
                 } else {
                     System.out.println("THIS ASSIGNMENT HAS ALREADY BEEN COMPLETED");
@@ -76,13 +76,13 @@ public class AssignmentService {
             if (choice.equals("1")) createAssignment(scanner, manager);
         }
         try {
-            ResultSet resultSet = MyConnection.statement.executeQuery("SELECT * FROM managers WHERE password = '" + manager.getPassword() + "';");
+            ResultSet resultSet = DatabaseConfiguration.statement.executeQuery("SELECT * FROM managers WHERE password = '" + manager.getPassword() + "';");
 
             String managerData = null;
             if (resultSet.next()) managerData = resultSet.getString(1);
             String managerID = managerData;
 
-            MyConnection.statement.executeUpdate("INSERT INTO assignments(managerID, assignment) VALUES(" + managerID + ", '" + assignment + "');");
+            DatabaseConfiguration.statement.executeUpdate("INSERT INTO assignments(managerID, assignment) VALUES(" + managerID + ", '" + assignment + "');");
             System.out.println("\nTHE ASSIGNMENT HAS BEEN CREATED");
         } catch (SQLException e) {
             System.out.println("JIKFRAF");
@@ -97,7 +97,7 @@ public class AssignmentService {
 
         try {
             if (choice.equals("1")) {
-                ResultSet resultSet = MyConnection.statement.executeQuery("SELECT s.assignment, s.dateOfCompletion, a.firstName, a.lastName " +
+                ResultSet resultSet = DatabaseConfiguration.statement.executeQuery("SELECT s.assignment, s.dateOfCompletion, a.firstName, a.lastName " +
                         "FROM assignments s, admins a WHERE a.adminID = s.adminID;");
                 System.out.printf("\n%-80s%-25s%-40s%n", "ASSIGNMENT", "DATE OF COMPLETION", "ADMIN");
                 System.out.println();
@@ -108,7 +108,7 @@ public class AssignmentService {
                     System.out.println();
                 }
             } else if (choice.equals("2")) {
-                ResultSet resultSet = MyConnection.statement.executeQuery("SELECT assignmentID, assignment, dateOfAppointment " +
+                ResultSet resultSet = DatabaseConfiguration.statement.executeQuery("SELECT assignmentID, assignment, dateOfAppointment " +
                         "FROM assignments s WHERE status = 'not done';");
                 System.out.printf("\n%-20s%-90s%-30s%n", "ASSIGNMENT ID", "ASSIGNMENT", "DATE OF APPOINTMENT");
                 System.out.println();

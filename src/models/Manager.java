@@ -1,6 +1,6 @@
 package models;
 
-import configurations.MyConnection;
+import configurations.DatabaseConfiguration;
 import constants.UserSqlQueries;
 import services.AssignmentService;
 
@@ -80,7 +80,7 @@ public class Manager extends User {
         boolean isUserExists = false;
         try {
             PreparedStatement preparedStatement =
-                    MyConnection.connection.prepareStatement(UserSqlQueries.MANAGERS_LOGIN_QUERY);
+                    DatabaseConfiguration.connection.prepareStatement(UserSqlQueries.MANAGERS_LOGIN_QUERY);
 
             preparedStatement.setString(1, firstName);
             preparedStatement.setString(2, lastName);

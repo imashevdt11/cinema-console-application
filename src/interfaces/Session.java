@@ -40,12 +40,12 @@ public interface Session {
                     (month == 2 && day > 28) || (month % 2 == 0 && day > 30) || (month % 2 != 0 && day > 31))
                 Admin.aMenu();
             String startTime = "2022-" + month + "-" + day + " " + hour + ":" + minute + ":00";
-            ResultSet resultSetAdmin = MyConnection.statement.executeQuery("SELECT * FROM admins WHERE password = '" + Admin.getPassword() + "';");
+            ResultSet resultSetAdmin = DatabaseConfiguration.statement.executeQuery("SELECT * FROM admins WHERE password = '" + Admin.getPassword() + "';");
             String adminID = null;
             if (resultSetAdmin.next()) adminID = resultSetAdmin.getString(1);
             System.out.print("MOVIE'S NAME: ");
             String movieName = scanner.nextLine();
-            ResultSet resultSetMovie = MyConnection.statement.executeQuery("SELECT * FROM movies WHERE moviename = '" + movieName + "';");
+            ResultSet resultSetMovie = DatabaseConfiguration.statement.executeQuery("SELECT * FROM movies WHERE moviename = '" + movieName + "';");
             String movieID = null;
             if (resultSetMovie.next()) {
                 movieID = resultSetMovie.getString(1);
@@ -56,7 +56,7 @@ public interface Session {
             }
             System.out.print("HALL'S NAME: ");
             String hallName = scanner.nextLine();
-            ResultSet resultSetHall = MyConnection.statement.executeQuery("SELECT * FROM halls WHERE hallName = '" + hallName + "';");
+            ResultSet resultSetHall = DatabaseConfiguration.statement.executeQuery("SELECT * FROM halls WHERE hallName = '" + hallName + "';");
             String hallID = null;
             if (resultSetHall.next()) {
                 hallID = resultSetHall.getString(1);
@@ -78,7 +78,7 @@ public interface Session {
             } else minute += leftMinutes;
             endTime = "2022-" + month + "-" + day + " " + (hour + convertToHours) + ":" + minute + ":00";
             boolean isSessionExists = false;
-            PreparedStatement prepareStatement = MyConnection.connection.prepareStatement("SELECT * FROM sessions " +
+            PreparedStatement prepareStatement = DatabaseConfiguration.connection.prepareStatement("SELECT * FROM sessions " +
                     "WHERE (startTime BETWEEN '" + startTime + "' AND '" + endTime + "' " +
                     "OR endTime BETWEEN '" + startTime + "' AND '" + endTime + "') AND hallID = '" + hallID + "';");{
                 try (ResultSet resultSet = prepareStatement.executeQuery()) {
@@ -89,10 +89,10 @@ public interface Session {
                 System.out.println("\nADDING A SESSION IS NOT POSSIBLE. ANOTHER SESSION HAS ALREADY BEENA SCHEDULED FOR A GIVEN TIME IN THIS HALL");
                 Admin.aMenu();
             }
-            MyConnection.statement.executeUpdate("INSERT INTO sessions " +
+            DatabaseConfiguration.statement.executeUpdate("INSERT INTO sessions " +
                     "VALUES(null, " + hallID + ", " + movieID + ", " + adminID + ", '" + startTime + "', '" + endTime + "', " +
                     economyTickets + ", " + standardTickets + ", " + expensiveTickets + ", " + availableTickets + ", 0)");
-            ResultSet resultSetSession = MyConnection.statement.executeQuery("SELECT * FROM sessions WHERE startTime = '" + startTime + "';");
+            ResultSet resultSetSession = DatabaseConfiguration.statement.executeQuery("SELECT * FROM sessions WHERE startTime = '" + startTime + "';");
             String sessionID = null;
             if (resultSetSession.next()) sessionID = resultSetSession.getString(1);
             System.out.print("\nECONOMY TICKET PRICE: ");
@@ -104,17 +104,17 @@ public interface Session {
             for (int j = 1; j <= numberOfRows; j++) {
                 if (j <= numberOfRows / 4) {
                     for (int i = 1; i <= numberOfPlaces; i++) {
-                        MyConnection.statement.executeUpdate("INSERT INTO tickets(sessionID, ticketPrice, type, rowW, place) " +
+                        DatabaseConfiguration.statement.executeUpdate("INSERT INTO tickets(sessionID, ticketPrice, type, rowW, place) " +
                                 "VALUES(" + sessionID + ", " + economyTicketPrice + ", 'economy', " + j + ", " + i + ");");
                     }
                 } else if (j > (numberOfRows / 4) && j <= (numberOfRows / 2) + (numberOfRows / 4)) {
                     for (int i = 1; i <= numberOfPlaces; i++) {
-                        MyConnection.statement.executeUpdate("INSERT INTO tickets(sessionID, ticketPrice, type, rowW, place) " +
+                        DatabaseConfiguration.statement.executeUpdate("INSERT INTO tickets(sessionID, ticketPrice, type, rowW, place) " +
                                 "VALUES(" + sessionID + ", " + standardTicketPrice + ", 'standard', " + j + ", " + i + ");");
                     }
                 } else if (j > (numberOfRows / 2) + (numberOfRows / 4)) {
                     for (int i = 1; i <= numberOfPlaces; i++) {
-                        MyConnection.statement.executeUpdate("INSERT INTO tickets(sessionID, ticketPrice, type, rowW, place) " +
+                        DatabaseConfiguration.statement.executeUpdate("INSERT INTO tickets(sessionID, ticketPrice, type, rowW, place) " +
                                 "VALUES(" + sessionID + ", " + expensiveTicketPrice + ", 'expensive', " + j + ", " + i + ");");
                     }
                 }
@@ -138,7 +138,7 @@ public interface Session {
         String date = scanner.nextLine();
         String queryTime = "'" + date + " 00:00:00' AND '" + date + " 23:59:59'";
 
-        ResultSet resultSet = MyConnection.statement.executeQuery(
+        ResultSet resultSet = DatabaseConfiguration.statement.executeQuery(
                 "SELECT s.startTime, s.endTime, m.movieName, h.hallName, s.numberOfAvailableTickets, s.numberOfSoldTickets " +
                         "FROM sessions s, movies m, halls h " +
                         "WHERE startTime BETWEEN " + queryTime + " AND s.hallID = h.hallID AND s.movieID = m.movieID ORDER BY startTime;");
