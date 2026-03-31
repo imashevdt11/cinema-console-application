@@ -1,9 +1,9 @@
 package views;
 
-import models.entities.Admin;
-import models.entities.Manager;
-import models.entities.User;
-import models.entities.Visitor;
+import models.Admin;
+import models.Manager;
+import models.User;
+import models.Visitor;
 
 public abstract class UserMenuView {
 

@@ -1,11 +1,4 @@
-package models.interfaces;
-
-import configurations.MyConnection;
-import models.entities.Admin;
-
-import java.io.IOException;
-import java.util.*;
-import java.sql.*;
+package interfaces;
 
 public interface Session {
 

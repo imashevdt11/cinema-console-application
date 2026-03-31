@@ -1,13 +1,4 @@
-package models.interfaces;
-
-import configurations.MyConnection;
-import models.entities.Admin;
-
-import java.io.IOException;
-import java.util.Scanner;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+package interfaces;
 
 public interface Movie {
 

@@ -1,5 +1,5 @@
 import controllers.UserController;
-import models.entities.User;
+import models.User;
 import views.UserMenuView;
 
 import java.util.Scanner;

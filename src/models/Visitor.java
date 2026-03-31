@@ -1,7 +1,7 @@
-package models.entities;
+package models;
 
 import configurations.MyConnection;
-import constants.SqlQueries;
+import constants.UserSqlQueries;
 
 import java.util.Scanner;
 import java.sql.PreparedStatement;
@@ -58,7 +58,7 @@ public class Visitor extends User {
         boolean isUserExists = false;
         try {
             PreparedStatement preparedStatement =
-                    MyConnection.connection.prepareStatement(SqlQueries.VISITORS_LOGIN_QUERY);
+                    MyConnection.connection.prepareStatement(UserSqlQueries.VISITORS_LOGIN_QUERY);
 
             preparedStatement.setString(1, firstName);
             preparedStatement.setString(2, lastName);

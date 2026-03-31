@@ -1,23 +1,20 @@
-package models.entities;
+package models;
 
-import models.enums.UserType;
-import models.interfaces.*;
+import enums.UserType;
+import interfaces.Movie;
+import interfaces.Review;
+import interfaces.Session;
+import interfaces.Ticket;
 
 import java.util.Scanner;
 
-public abstract class User implements Assignment, Movie, Review, Session, Ticket {
+public abstract class User implements Movie, Review, Session, Ticket {
 
     private String firstName;
     private String lastName;
     private String password;
 
     public User() {}
-
-    public User(String firstName, String lastName, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.password = password;
-    }
 
     public String getFirstName() {
         return firstName;

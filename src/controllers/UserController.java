@@ -1,12 +1,11 @@
 package controllers;
 
-import interfaces.TypeChoosingListener;
-import models.entities.User;
+import models.User;
 import views.UserMenuView;
 
 import java.util.Scanner;
 
-public class UserController implements TypeChoosingListener {
+public class UserController {
 
     private User model;
     private UserMenuView view;

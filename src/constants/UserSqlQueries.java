@@ -1,6 +1,6 @@
 package constants;
 
-public class SqlQueries {
+public class UserSqlQueries {
 
     public final static String ADMINS_LOGIN_QUERY = "SELECT firstname, lastname, status, password " +
             "FROM admins WHERE firstName = ? AND lastName = ? AND password = ? AND status = 'current'";

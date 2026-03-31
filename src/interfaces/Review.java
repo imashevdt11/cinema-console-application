@@ -1,12 +1,4 @@
-package models.interfaces;
-
-import configurations.MyConnection;
-import models.entities.Admin;
-import models.entities.Visitor;
-
-import java.io.IOException;
-import java.util.Scanner;
-import java.sql.*;
+package interfaces;
 
 public interface Review {
 

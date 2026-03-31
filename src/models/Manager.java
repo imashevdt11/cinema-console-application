@@ -1,7 +1,8 @@
-package models.entities;
+package models;
 
 import configurations.MyConnection;
-import constants.SqlQueries;
+import constants.UserSqlQueries;
+import services.AssignmentService;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +21,7 @@ public class Manager extends User {
             switch (choice) {
 
                 case "1" -> {
-//                    Assignment.getAssignments();
+                    AssignmentService.getAssignments(scanner);
                     chooseMenuOption(scanner);
                 }
                 case "2" -> {
@@ -37,7 +38,10 @@ public class Manager extends User {
                 }
 
 //                case "5" -> Admin.removeAdmin();
-//                case "6" -> Assignment.requestAssignment();
+                case "6" -> {
+                    AssignmentService.createAssignment(scanner, this);
+                    chooseMenuOption(scanner);
+                }
 //                case "7" -> Admin.addAdmin();
 
                 case "8" -> {
@@ -76,7 +80,7 @@ public class Manager extends User {
         boolean isUserExists = false;
         try {
             PreparedStatement preparedStatement =
-                    MyConnection.connection.prepareStatement(SqlQueries.MANAGERS_LOGIN_QUERY);
+                    MyConnection.connection.prepareStatement(UserSqlQueries.MANAGERS_LOGIN_QUERY);
 
             preparedStatement.setString(1, firstName);
             preparedStatement.setString(2, lastName);
