@@ -1,12 +1,7 @@
 package models;
 
-import configurations.DatabaseConfiguration;
-import constants.UserSqlQueries;
 import services.AssignmentService;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Manager extends User {
@@ -61,49 +56,6 @@ public class Manager extends User {
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        }
-    }
-
-    public void login(Scanner scanner) {
-
-        System.out.print("\nFIRST NAME: ");
-        String firstName = scanner.nextLine();
-        System.out.print("LAST NAME: ");
-        String lastName = scanner.nextLine();
-        System.out.print("PASSWORD: ");
-        String password = scanner.nextLine();
-
-        setFirstName(firstName);
-        setLastName(lastName);
-        setPassword(password);
-
-        boolean isUserExists = false;
-        try {
-            PreparedStatement preparedStatement =
-                    DatabaseConfiguration.connection.prepareStatement(UserSqlQueries.MANAGERS_LOGIN_QUERY);
-
-            preparedStatement.setString(1, firstName);
-            preparedStatement.setString(2, lastName);
-            preparedStatement.setString(3, password);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) isUserExists = true;
-            }
-        } catch (SQLException e) {
-            System.out.printf("ERROR!!! SQL problems: {%s}", e.getMessage());
-        }
-        if (!isUserExists) {
-            System.out.print("""
-                    \nNO DATA FOUND
-
-                    DO YOU WANT TO TRY AGAIN? (1 - YES / 0 - NO):\040""");
-            String choice = scanner.nextLine();
-
-            if (choice.equals("1")) {
-                login(scanner);
-            } else{
-                System.out.println("GOODBYE! HAVE A NICE DAY!\n");
-            }
-//            else UserMenuView.openMainMenu();
         }
     }
 }

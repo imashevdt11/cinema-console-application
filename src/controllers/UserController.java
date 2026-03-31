@@ -18,9 +18,12 @@ public class UserController {
     }
 
     public void start() {
-        model.login(scanner);
-        view.printFunctionOptionsMenu();
-        model.chooseMenuOption(scanner);
+        boolean loginResult = model.login(scanner);
+
+        if (loginResult) {
+            view.printFunctionOptionsMenu();
+            model.chooseMenuOption(scanner);
+        }
     }
 
     public User getModel() {
