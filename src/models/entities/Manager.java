@@ -1,6 +1,7 @@
 package models.entities;
 
 import configurations.MyConnection;
+import constants.SqlQueries;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -74,15 +75,14 @@ public class Manager extends User {
 
         boolean isUserExists = false;
         try {
-            PreparedStatement preparedStatement = MyConnection.connection.prepareStatement("SELECT firstName, lastName, password, status " +
-                    "FROM managers WHERE firstName = ? AND lastName = ? AND password = ? AND status = 'current'");
-            {
-                preparedStatement.setString(1, firstName);
-                preparedStatement.setString(2, lastName);
-                preparedStatement.setString(3, password);
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    if (resultSet.next()) isUserExists = true;
-                }
+            PreparedStatement preparedStatement =
+                    MyConnection.connection.prepareStatement(SqlQueries.MANAGERS_LOGIN_QUERY);
+
+            preparedStatement.setString(1, firstName);
+            preparedStatement.setString(2, lastName);
+            preparedStatement.setString(3, password);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) isUserExists = true;
             }
         } catch (SQLException e) {
             System.out.printf("ERROR!!! SQL problems: {%s}", e.getMessage());
