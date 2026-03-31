@@ -3,18 +3,18 @@ package services;
 import configurations.DatabaseConfiguration;
 import models.Admin;
 import models.Manager;
+import util.InputScanner;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Scanner;
 
 public class AssignmentService {
 
-    public static void completeAssignment(Scanner scanner, Admin admin) {
+    public static void completeAssignment(Admin admin) {
 
         System.out.print("\nENTER THE ASSIGNMENT ID: ");
-        String assignmentID = scanner.nextLine();
+        String assignmentID = InputScanner.getScanner().nextLine();
         boolean isAssignmentExists = false;
 
         try {
@@ -60,20 +60,20 @@ public class AssignmentService {
         }
     }
 
-    public static void createAssignment(Scanner scanner, Manager manager) {
+    public static void createAssignment(Manager manager) {
 
         System.out.print("\nENTER THE ASSIGNMENT (MUST CONTAIN LESS THAN 80 CHARACTERS): ");
 
-        String assignment = scanner.nextLine();
+        String assignment = InputScanner.getScanner().nextLine();
 
         if (assignment.length() > 80) {
             System.out.print("""
                     \nYOU HAVE ENTERED THE NUMBER OF CHARACTERS EXCEEDING THE SPECIFIED LIMIT
 
                     DO YOU WANT TO TRY AGAIN? (1 - YES / 0 - NO):\040""");
-            String choice = scanner.nextLine();
+            String choice = InputScanner.getScanner().nextLine();
 
-            if (choice.equals("1")) createAssignment(scanner, manager);
+            if (choice.equals("1")) createAssignment(manager);
         }
         try {
             ResultSet resultSet = DatabaseConfiguration.statement.executeQuery("SELECT * FROM managers WHERE password = '" + manager.getPassword() + "';");
@@ -89,11 +89,11 @@ public class AssignmentService {
         }
     }
 
-    public static void getAssignments(Scanner scanner) {
+    public static void getAssignments() {
 
         System.out.print("DO YOU WANT TO GET LIST OF COMPLETED ASSIGNMENTS OR NOT COMPLETED? (1 - COMPLETED / 2 - NOT COMPLETED): ");
 
-        String choice = scanner.nextLine();
+        String choice = InputScanner.getScanner().nextLine();
 
         try {
             if (choice.equals("1")) {

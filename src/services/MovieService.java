@@ -1,6 +1,6 @@
-package interfaces;
+package services;
 
-public interface Movie {
+public class MovieService {
 
     /*
     static void addMovie() throws ClassNotFoundException, NumberFormatException, SQLException, IOException {

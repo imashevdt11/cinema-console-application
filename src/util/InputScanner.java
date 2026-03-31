@@ -4,9 +4,9 @@ import java.util.Scanner;
 
 public class InputScanner {
 
-    private final static Scanner stringScanner = new Scanner(System.in);
+    private final static Scanner scanner = new Scanner(System.in);
 
-    public static Scanner getStringScanner() {
-        return stringScanner;
+    public static Scanner getScanner() {
+        return scanner;
     }
 }

@@ -1,36 +1,6 @@
-package interfaces;
+package services;
 
-public interface Review {
-
-    /*
-    static void replyReview() throws ClassNotFoundException, SQLException, IOException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("\nENTER THE REVIEW ID: ");
-        String reviewID = scanner.nextLine();
-        System.out.print("REPLY (MUST CONTAIN LESS THAN 80 CHARACTERS): ");
-        String reply = scanner.nextLine();
-        if (reply.length() > 80) {
-            System.out.println("""
-                    \nYOU HAVE ENTERED THE NUMBER OF CHARACTERS EXCEEDING THE SPECIFIED LIMIT
-
-                    DO YOU WANT TO TRY AGAIN? (1 - YES / 0 - NO):\040""");
-            String choice = scanner.nextLine();
-            if (choice.equals("1")) replyReview();
-            else Admin.aMenu();
-        }
-        ResultSet resultSet = DatabaseConfiguration.statement.executeQuery("SELECT * FROM admins " +
-                "WHERE firstName = '" + Admin.getFirstName() + "' AND lastName = '" +  Admin.getLastName() + "';");
-        String adminID = null;
-        while (resultSet.next()) {
-            adminID = resultSet.getString(1);
-        }
-        DatabaseConfiguration.statement.executeUpdate("UPDATE reviews SET reply = '" + reply + "' WHERE reviewID =  " + reviewID + ";");
-        DatabaseConfiguration.statement.executeUpdate("UPDATE reviews SET adminID = " + adminID + " WHERE reviewID =  " + reviewID + ";");
-        System.out.println("\nDATA SAVED");
-        Admin.aMenu();
-    }
-     */
+public class ReviewService {
 
     /*
     static void addReview() throws ClassNotFoundException, SQLException, IOException {
@@ -42,7 +12,7 @@ public interface Review {
         if (review.length() > 80) {
             System.out.println("""
                     \nYOU HAVE ENTERED THE NUMBER OF CHARACTERS EXCEEDING THE SPECIFIED LIMIT
-                    
+
                     DO YOU WANT TO TRY AGAIN? (1 - YES / 0 - NO):\040""");
             String choice = scanner.nextLine();
             if (choice.equals("1")) addReview();
@@ -58,7 +28,7 @@ public interface Review {
         System.out.println("\nREVIEW HAS BEEN ADDED");
         Visitor.vMenu();
     }
-     */
+    */
 
     /*
     static void getReviews() throws ClassNotFoundException, SQLException {
@@ -91,7 +61,39 @@ public interface Review {
             }
         }
     }
+    */
+
+    /*
+    static void replyReview() throws ClassNotFoundException, SQLException, IOException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("\nENTER THE REVIEW ID: ");
+        String reviewID = scanner.nextLine();
+        System.out.print("REPLY (MUST CONTAIN LESS THAN 80 CHARACTERS): ");
+        String reply = scanner.nextLine();
+        if (reply.length() > 80) {
+            System.out.println("""
+                    \nYOU HAVE ENTERED THE NUMBER OF CHARACTERS EXCEEDING THE SPECIFIED LIMIT
+
+                    DO YOU WANT TO TRY AGAIN? (1 - YES / 0 - NO):\040""");
+            String choice = scanner.nextLine();
+            if (choice.equals("1")) replyReview();
+            else Admin.aMenu();
+        }
+        ResultSet resultSet = DatabaseConfiguration.statement.executeQuery("SELECT * FROM admins " +
+                "WHERE firstName = '" + Admin.getFirstName() + "' AND lastName = '" +  Admin.getLastName() + "';");
+        String adminID = null;
+        while (resultSet.next()) {
+            adminID = resultSet.getString(1);
+        }
+        DatabaseConfiguration.statement.executeUpdate("UPDATE reviews SET reply = '" + reply + "' WHERE reviewID =  " + reviewID + ";");
+        DatabaseConfiguration.statement.executeUpdate("UPDATE reviews SET adminID = " + adminID + " WHERE reviewID =  " + reviewID + ";");
+        System.out.println("\nDATA SAVED");
+        Admin.aMenu();
+    }
      */
+
+
 }
 
 

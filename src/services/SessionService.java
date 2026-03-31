@@ -1,6 +1,6 @@
-package interfaces;
+package services;
 
-public interface Session {
+public class SessionService {
 
     /*
     static void addSession() throws ClassNotFoundException, SQLException, IOException {
@@ -158,4 +158,3 @@ public interface Session {
     }
      */
 }
-
