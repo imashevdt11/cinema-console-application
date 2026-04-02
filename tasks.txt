@@ -1,3 +1,4 @@
 - create one table for all type of users (at least it must table in which all common fields will be stored)
 - add setting data for user after login
 - change logic of counting number of assignments completed by user
+- fix validation in addMovie(): validation logic + have to enter everything again, if one field didn't cross validation

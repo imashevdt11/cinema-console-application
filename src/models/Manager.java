@@ -2,6 +2,8 @@ package models;
 
 import enums.ErrorType;
 import services.AssignmentService;
+import services.MovieService;
+import services.ReviewService;
 import util.InputScanner;
 import views.GeneralView;
 
@@ -15,8 +17,8 @@ public class Manager extends User {
         switch (choice) {
             case "1" -> AssignmentService.getAssignments();
 //            case "2" -> SessionService.getSchedule();
-//            case "3" -> ReviewService.getReviews();
-//            case "4" -> MovieService.getMovies();
+            case "3" -> ReviewService.getReviews();
+            case "4" -> MovieService.getMovies();
 //            case "5" -> Admin.removeAdmin();
             case "6" -> AssignmentService.createAssignment(this);
 //            case "7" -> Admin.addAdmin();

@@ -3,48 +3,46 @@ package services;
 public class SessionService {
 
     /*
-    static void addSession() throws ClassNotFoundException, SQLException, IOException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Scanner intScanner = new Scanner(System.in);
-        Scanner scanner = new Scanner(System.in);
-        int availableTickets = 0;
-        int expensiveTickets = 0;
-        int standardTickets = 0;
-        int economyTickets = 0;
-        int movieDuration = 0;
-        int numberOfRows = 0;
-        int numberOfPlaces = 0;
-        String endTime;
-        System.out.println("""
-                Before you start entering data, I would like to remind you of the following points:
-                
-                - there are only 24 hours in a day
-                - there are only 12 months in a year
-                - there are only 60 minutes in an hour
-                - you can add sessions only for this, 2022, year
-                - there are only 28 days in February 2022, 30 days in even months and 31 days in odd months");
-                
-                Please, keep this in mind and enter the correct data to save your time.
-                """);
+    public static void addSession(Admin admin) {
         try {
+            int availableTickets = 0;
+            int expensiveTickets = 0;
+            int standardTickets = 0;
+            int economyTickets = 0;
+            int movieDuration = 0;
+            int numberOfRows = 0;
+            int numberOfPlaces = 0;
+            String endTime;
+            System.out.println("""
+                    Before you start entering data, I would like to remind you of the following points:
+                    
+                    - there are only 24 hours in a day
+                    - there are only 12 months in a year
+                    - there are only 60 minutes in an hour
+                    - you can add sessions only for this, 2022, year
+                    - there are only 28 days in February 2022, 30 days in even months and 31 days in odd months");
+                    
+                    Please, keep this in mind and enter the correct data to save your time.
+                    """);
+
             System.out.println("\nENTER THE SESSION'S START TIME. ENTER THE DATE IN NUMERICAL FORMAT.");
             System.out.print("HOUR: ");
-            int hour = intScanner.nextInt();
+            String hour = InputScanner.getScanner().nextLine();
             System.out.print("MINUTE: ");
-            int minute = intScanner.nextInt();
+            String minute = InputScanner.getScanner().nextLine();
             System.out.print("MONTH: ");
-            int month = intScanner.nextInt();
+            String month = InputScanner.getScanner().nextLine();
             System.out.print("DAY: ");
-            int day = intScanner.nextInt();
-            if ((hour < 0 || hour > 23) || (minute < 0 || minute > 59) || (month <= 0 || month > 12) ||
-                    (month == 2 && day > 28) || (month % 2 == 0 && day > 30) || (month % 2 != 0 && day > 31))
-                Admin.aMenu();
+            String day = InputScanner.getScanner().nextLine();
+//            if ((Integer.parseInt(hour) < 0 || (Integer.parseInt(hour) > 23) || (Integer.parseInt(minute) < 0 || Integer.parseInt(minute) > 59)
+//                    || (Integer.parseInt(month) <= 0 || Integer.parseInt(month) > 12) || (Integer.parseInt(month) == 2 && Integer.parseInt(day) > 28) ||
+//                    (Integer.parseInt(month) % 2 == 0 && Integer.parseInt(day) > 30) || (Integer.parseInt(month) % 2 != 0 && Integer.parseInt(day) > 31)))
             String startTime = "2022-" + month + "-" + day + " " + hour + ":" + minute + ":00";
-            ResultSet resultSetAdmin = DatabaseConfiguration.statement.executeQuery("SELECT * FROM admins WHERE password = '" + Admin.getPassword() + "';");
+            ResultSet resultSetAdmin = DatabaseConfiguration.statement.executeQuery("SELECT * FROM admins WHERE password = '" + admin.getPassword() + "';");
             String adminID = null;
             if (resultSetAdmin.next()) adminID = resultSetAdmin.getString(1);
             System.out.print("MOVIE'S NAME: ");
-            String movieName = scanner.nextLine();
+            String movieName = InputScanner.getScanner().nextLine();
             ResultSet resultSetMovie = DatabaseConfiguration.statement.executeQuery("SELECT * FROM movies WHERE moviename = '" + movieName + "';");
             String movieID = null;
             if (resultSetMovie.next()) {
@@ -52,10 +50,9 @@ public class SessionService {
                 movieDuration = resultSetMovie.getInt(3);
             } else {
                 System.out.println("\nMOVIE IS NOT IN THE DATABASE");
-                Admin.aMenu();
             }
             System.out.print("HALL'S NAME: ");
-            String hallName = scanner.nextLine();
+            String hallName = InputScanner.getScanner().nextLine();
             ResultSet resultSetHall = DatabaseConfiguration.statement.executeQuery("SELECT * FROM halls WHERE hallName = '" + hallName + "';");
             String hallID = null;
             if (resultSetHall.next()) {
@@ -68,7 +65,6 @@ public class SessionService {
                 numberOfPlaces = resultSetHall.getInt(5);
             } else {
                 System.out.println("\nHALL IS NOT IN THE DATABASE");
-                Admin.aMenu();
             }
             int convertToHours = movieDuration / 60;
             int leftMinutes = movieDuration % 60;
@@ -80,9 +76,12 @@ public class SessionService {
             boolean isSessionExists = false;
             PreparedStatement prepareStatement = DatabaseConfiguration.connection.prepareStatement("SELECT * FROM sessions " +
                     "WHERE (startTime BETWEEN '" + startTime + "' AND '" + endTime + "' " +
-                    "OR endTime BETWEEN '" + startTime + "' AND '" + endTime + "') AND hallID = '" + hallID + "';");{
+                    "OR endTime BETWEEN '" + startTime + "' AND '" + endTime + "') AND hallID = '" + hallID + "';");
+            {
                 try (ResultSet resultSet = prepareStatement.executeQuery()) {
-                    if (resultSet.next()) {isSessionExists = true;}
+                    if (resultSet.next()) {
+                        isSessionExists = true;
+                    }
                 }
             }
             if (isSessionExists) {
@@ -120,10 +119,8 @@ public class SessionService {
                 }
             }
             System.out.println("\nTHE SESSION IS ADDED");
-            Admin.aMenu();
-        } catch (InputMismatchException inputMismatchException) {
-            System.out.println("\nPLEASE, ENTER DATE AND TIME DATA IN NUMERIC FORMAT");
-            addSession();
+        } catch (InputMismatchException | SQLException e) {
+            System.out.printf("ERROR!!! Problems: {%s}", e.getMessage());
         }
     }
      */
