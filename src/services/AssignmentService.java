@@ -1,11 +1,14 @@
 package services;
 
 import configurations.DatabaseConfiguration;
+import enums.ErrorType;
 import models.Admin;
 import models.Manager;
+import repository.AssignmentRepository;
+import repository.UserRepository;
 import util.InputScanner;
+import views.GeneralView;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -15,48 +18,27 @@ public class AssignmentService {
 
         System.out.print("\nENTER THE ASSIGNMENT ID: ");
         String assignmentID = InputScanner.getScanner().nextLine();
-        boolean isAssignmentExists = false;
 
-        try {
-            PreparedStatement preparedStatement = DatabaseConfiguration.connection.prepareStatement("SELECT assignmentID " +
-                    "FROM assignments WHERE assignmentID = ?;");
+        boolean isAssignmentExists = AssignmentRepository.isAssignmentExistsById(assignmentID);
 
-            preparedStatement.setString(1, assignmentID);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) isAssignmentExists = true;
-            }
+        if (isAssignmentExists) {
+            boolean isAssignmentCompleted = AssignmentRepository.isAssignmentCompleted(assignmentID);
 
-            if (isAssignmentExists) {
-                boolean isAssignmentComplete = false;
-                PreparedStatement preparedStatement2 = DatabaseConfiguration.connection.prepareStatement("SELECT * FROM assignments " +
-                        "WHERE assignmentID = ? AND status = 'not done';");
-                {
-                    preparedStatement2.setString(1, assignmentID);
-                    try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                        if (resultSet.next()) isAssignmentComplete = true;
-                    }
-                }
-                ResultSet resultSet = DatabaseConfiguration.statement.executeQuery("SELECT * FROM admins " +
-                        "WHERE firstName = '" + admin.getFirstName() + "' AND lastName = '" + admin.getLastName() + "';");
-                String adminID = null;
-                while (resultSet.next()) {
-                    adminID = resultSet.getString(1);
-                }
-                if (isAssignmentComplete) {
-                    DatabaseConfiguration.statement.executeUpdate("UPDATE assignments SET status = 'done' WHERE assignmentID = " + assignmentID + ";");
-                    DatabaseConfiguration.statement.executeUpdate("UPDATE assignments SET dateOfCompletion = now() WHERE assignmentID = " + assignmentID + ";");
-                    DatabaseConfiguration.statement.executeUpdate("UPDATE admins SET numberOfCompletedAssignments = (numberOfCompletedAssignments + 1) " +
-                            "WHERE password = '" + admin.getPassword() + "';");
-                    DatabaseConfiguration.statement.executeUpdate("UPDATE assignments SET adminID = " + adminID + " WHERE assignmentID = " + assignmentID + ";");
-                    System.out.println("\nDATA SAVED");
-                } else {
-                    System.out.println("THIS ASSIGNMENT HAS ALREADY BEEN COMPLETED");
+            if (!isAssignmentCompleted) {
+                String adminID = UserRepository.getAdminId(admin.getFirstName(), admin.getLastName());
+
+                if (adminID != null) {
+                    AssignmentRepository.setAssignmentStatusToDone(assignmentID, adminID);
+                    UserRepository.increaseNumberOfCompletedAssignmentsForAdmin(
+                            admin.getFirstName(), admin.getLastName());
+
+                    GeneralView.printDataSuccessfullySavedMessage();
                 }
             } else {
-                System.out.println("THE ASSIGNMENT WITH THE SPECIFIED ID IS NOT IN THE DATABASE");
-             }
-        } catch (SQLException e) {
-            System.out.println("qwerqwe");
+                GeneralView.printErrorMessage(ErrorType.ASSIGNMENT_ALREADY_COMPLETED);
+            }
+        } else {
+            GeneralView.printErrorMessage(ErrorType.ASSIGNMENT_NOT_FOUND);
         }
     }
 

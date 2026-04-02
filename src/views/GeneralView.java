@@ -17,6 +17,10 @@ public class GeneralView {
         System.out.println("GOODBYE! HAVE A NICE DAY!\n");
     }
 
+    public static void printDataSuccessfullySavedMessage() {
+        System.out.println("DATA SAVED SUCCESSFULLY!");
+    }
+
     private static void insertExtraLines(int extraLinesNumber) {
         for (int i = 0; i < extraLinesNumber; i++) {
             System.out.println("\n");

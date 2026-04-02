@@ -25,4 +25,46 @@ public class UserRepository {
         }
         return isUserExists;
     }
+
+    public static String getAdminId(String firstName, String lastName) {
+        String adminID = null;
+        try {
+            PreparedStatement preparedStatement =
+                DatabaseConfiguration.connection.prepareStatement(
+                    """
+                    SELECT * FROM admins
+                    WHERE firstName = ?
+                        AND lastName = ?;
+                    """);
+
+            preparedStatement.setString(1, firstName);
+            preparedStatement.setString(2, lastName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                adminID = resultSet.getString(1);
+            }
+        } catch (SQLException e) {
+            System.out.printf("ERROR!!! SQL problems: {%s}", e.getMessage());
+        }
+        return adminID;
+    }
+
+    public static void increaseNumberOfCompletedAssignmentsForAdmin(String firstName, String lastName) {
+        try {
+            PreparedStatement preparedStatement =
+                DatabaseConfiguration.connection.prepareStatement(
+                    """
+                   UPDATE admins
+                   SET numberOfCompletedAssignments = numberOfCompletedAssignments + 1
+                   WHERE firstName = ?
+                       AND lastName = ?;
+                   """);
+            preparedStatement.setString(1, firstName);
+            preparedStatement.setString(2, lastName);
+            preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            System.out.printf("ERROR!!! SQL problems: {%s}", e.getMessage());
+        }
+    }
 }
